@@ -1,5 +1,5 @@
 """
-WSGI config for superseguros project.
+WSGI config for super_insurance project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'superseguros.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'super_insurance.settings')
 
 application = get_wsgi_application()
