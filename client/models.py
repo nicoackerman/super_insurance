@@ -13,7 +13,7 @@ class UserPolicy(models.Model):
     policy_id = models.ForeignKey(Policy, on_delete=models.CASCADE, related_name='policy_users')
 
     class Meta:
-        unique_together = ('user', 'policy')
+        unique_together = ('user_id', 'policy_id')
 
 
 class UserSolicitation(models.Model):
