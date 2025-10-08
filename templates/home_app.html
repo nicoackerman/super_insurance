@@ -1,0 +1,68 @@
+{% extends 'index.html' %}
+
+{% block title %}Home - Super Insurance{% endblock %}
+
+{% block style %}
+<style>
+    .hero-section {
+        background: url('https://via.placeholder.com/1500x500') no-repeat center center;
+        background-size: cover;
+        color: white;
+        padding: 150px 0;
+        text-align: center;
+        animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .card {
+        margin-bottom: 30px;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .card img {
+        height: 250px;
+        object-fit: cover;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <h1 class="display-4">Welcome to Super Insurance</h1>
+        <p class="lead">Your one-stop insurance solution</p>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Client Area</h5>
+                    <p class="card-text">Manage your insurance policies, view your profile, and get in touch with us.</p>
+                    <a href="{% url 'client:home' %}" class="btn btn-primary">Go to Client Area</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Admin Panel</h5>
+                    <p class="card-text">Access the administration panel to manage clients, policies, and site content.</p>
+                    <a href="{% url 'admin:index' %}" class="btn btn-secondary">Go to Admin Panel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

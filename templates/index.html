@@ -38,18 +38,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    {% block nav_items %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Vehicles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Homes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
+                    {% endblock nav_items %}
                 </ul>
             </div>
         </div>
