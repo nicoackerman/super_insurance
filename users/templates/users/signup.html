@@ -8,8 +8,17 @@
 {% block content %}
     <h1>Signup</h1>
     <form class="form-with-validation" method="post" action="/users/signup/">
-        {% csrf_token %}
-        {{ form }}
-        <button>Submit</button>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      {% for field in form %}
+        <div>
+          {{ field.label_tag }}
+          {{ field }}
+          {{ field.errors }}
+        </div>
+      {% endfor %}
+
+      <button type="submit">Registrarse</button>
     </form>
 {% endblock %}

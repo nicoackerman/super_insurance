@@ -32,6 +32,53 @@
         height: 250px;
         object-fit: cover;
     }
+
+    .login-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 20px;
+        transition: background-color 0.3s, transform 0.3s;
+        animation: pulse 2s infinite;
+    }
+
+    .login-button:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    .arrow {
+        margin-left: 10px;
+        display: inline-block;
+        animation: slide 1s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    @keyframes slide {
+        0% {
+            transform: translateX(0);
+        }
+        50% {
+            transform: translateX(10px);
+        }
+        100% {
+            transform: translateX(0);
+        }
+    }
 </style>
 {% endblock %}
 
@@ -40,6 +87,9 @@
     <div class="container">
         <h1 class="display-4">Secure Your Assets with Super Insurance</h1>
         <p class="lead">The best protection for your home and vehicle</p>
+        <a href="{% url 'users:login' %}" class="login-button">
+            Go to Login <span class="arrow">&rarr;</span>
+        </a>
     </div>
 </div>
 
