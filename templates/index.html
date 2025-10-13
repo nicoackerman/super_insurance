@@ -53,12 +53,17 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'home' %}">Home</a>
             </li>
-            {% endblock nav_items %} 
-            {% if user.is_auhtenticated %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'users:logout' %}">Log out</a>
-            </li>
+            {% endblock nav_items %} {% if user.is_authenticated %}
+            <form action="{% url 'users:logout' %}" method="post">
+              {% csrf_token %}
+              <button aria-label="User Logout" title="User Logout">
+                Log out
+              </button>
+            </form>
             {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'users:signup' %}">Sign Up</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'users:login' %}">Log In</a>
             </li>
@@ -68,8 +73,7 @@
       </div>
     </nav>
 
-    {% block content %} 
-    {% endblock %}
+    {% block content %} {% endblock %}
 
     <footer class="footer mt-5">
       <div class="container">
