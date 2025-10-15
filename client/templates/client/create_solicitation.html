@@ -1,0 +1,85 @@
+{% extends 'index.html' %}
+
+{% block title %}File a Claim - Super Insurance{% endblock %}
+
+{% block style %}
+{{ block.super }}
+<style>
+    .card-header {
+        background-color: #007bff;
+        color: white;
+    }
+    .form-label {
+        font-weight: 500;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-center">
+                    <h2 class="mb-0">File a New Claim</h2>
+                </div>
+                <div class="card-body p-4">
+                    <p class="text-muted text-center mb-4">Please fill out the form below to submit your claim.</p>
+                    
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
+                            {{ form.title }}
+                            {% for error in form.title.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}</label>
+                            {{ form.description }}
+                            {% for error in form.description.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.occurred_at.id_for_label }}" class="form-label">{{ form.occurred_at.label }}</label>
+                                {{ form.occurred_at }}
+                                {% for error in form.occurred_at.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.estimated_loss.id_for_label }}" class="form-label">{{ form.estimated_loss.label }}</label>
+                                {{ form.estimated_loss }}
+                                {% for error in form.estimated_loss.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.evidence_url.id_for_label }}" class="form-label">{{ form.evidence_url.label }}</label>
+                            {{ form.evidence_url }}
+                            {% if form.evidence_url.help_text %}
+                                <small class="form-text text-muted">{{ form.evidence_url.help_text }}</small>
+                            {% endif %}
+                            {% for error in form.evidence_url.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg mt-3">Submit Claim</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

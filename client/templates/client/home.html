@@ -1,118 +1,125 @@
-{% extends 'index.html' %}
-
-{% block title %}Home - Super Insurance{% endblock %}
-
+{% extends 'index.html' %} {% block title %}Home - Super Insurance{% endblock %}
 {% block style %}
 <style>
-    .hero-section {
-        background: url('https://via.placeholder.com/1500x500') no-repeat center center;
-        background-size: cover;
-        color: white;
-        padding: 150px 0;
-        text-align: center;
-        animation: fadeIn 2s ease-in-out;
-    }
+  .hero-section {
+    background: url("https://via.placeholder.com/1500x500") no-repeat center
+      center;
+    background-size: cover;
+    color: white;
+    padding: 150px 0;
+    text-align: center;
+    animation: fadeIn 2s ease-in-out;
+  }
 
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
     }
+    to {
+      opacity: 1;
+    }
+  }
 
-    .card {
-        margin-bottom: 30px;
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    }
+  .card {
+    margin-bottom: 30px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
 
-    .card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
 
-    .card img {
-        height: 250px;
-        object-fit: cover;
-    }
+  .card img {
+    height: 250px;
+    object-fit: cover;
+  }
 
-    .login-button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        margin-top: 20px;
-        transition: background-color 0.3s, transform 0.3s;
-        animation: pulse 2s infinite;
-    }
+  .login-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background-color 0.3s, transform 0.3s;
+    animation: pulse 2s infinite;
+  }
 
-    .login-button:hover {
-        background-color: #0056b3;
-        transform: scale(1.05);
-    }
+  .login-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
 
-    .arrow {
-        margin-left: 10px;
-        display: inline-block;
-        animation: slide 1s infinite;
-    }
+  .arrow {
+    margin-left: 10px;
+    display: inline-block;
+    animation: slide 1s infinite;
+  }
 
-    @keyframes pulse {
-        0% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.05);
-        }
-        100% {
-            transform: scale(1);
-        }
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
     }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 
-    @keyframes slide {
-        0% {
-            transform: translateX(0);
-        }
-        50% {
-            transform: translateX(10px);
-        }
-        100% {
-            transform: translateX(0);
-        }
+  @keyframes slide {
+    0% {
+      transform: translateX(0);
     }
+    50% {
+      transform: translateX(10px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
 </style>
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <div class="hero-section">
-    <div class="container">
-        <h1 class="display-4">Secure Your Assets with Super Insurance</h1>
-        <p class="lead">The best protection for your home and vehicle</p>
-        <a href="{% url 'users:login' %}" class="login-button">
-            Go to Login <span class="arrow">&rarr;</span>
-        </a>
-    </div>
+  <div class="container">
+    <h1 class="display-4">Secure Your Assets with Super Insurance</h1>
+    <p class="lead">The best protection for your home and vehicle</p>
+  </div>
 </div>
 
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Vehicle Insurance</h5>
-                    <p class="card-text">Protect your vehicle against accidents, theft, and other damages. Get a quote today!</p>
-                    <a href="#" class="btn btn-primary">Get a Quote</a>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Vehicle Insurance</h5>
+          <p class="card-text">
+            Protect your vehicle against accidents, theft, and other damages.
+            Get a quote today!
+          </p>
+          <a
+            href="{% url 'client:create_solicitation' %}"
+            class="btn btn-primary"
+            >Get a Quote</a
+          >
         </div>
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Home Insurance</h5>
-                    <p class="card-text">Secure your home from natural disasters, theft, and other risks. Your peace of mind is our priority.</p>
-                    <a href="#" class="btn btn-primary">Get a Quote</a>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Home Insurance</h5>
+          <p class="card-text">
+            Secure your home from natural disasters, theft, and other risks.
+            Your peace of mind is our priority.
+          </p>
+          <a href="#" class="btn btn-primary">Get a Quote</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
