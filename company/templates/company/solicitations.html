@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Solicitations</title>
+</head>
+<body>
+    <h1>User Solicitations</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>User</th>
+                <th>Policy</th>
+                <th>Status</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for solicitation in solicitations %}
+            <tr>
+                <td>{{ solicitation.title }}</td>
+                <td>{{ solicitation.user_id.username }}</td>
+                <td>{{ solicitation.policy_id.name }}</td>
+                <td>{{ solicitation.status }}</td>
+                <td>{{ solicitation.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

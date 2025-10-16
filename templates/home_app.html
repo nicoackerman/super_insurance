@@ -46,6 +46,7 @@
 {% if user.is_authenticated %}
 <div class="container mt-5">
     <div class="row">
+        {% if not user.is_superuser %}
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
@@ -55,15 +56,18 @@
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% if user.is_superuser %}
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Admin Panel</h5>
-                    <p class="card-text">Access the administration panel to manage clients, policies, and site content.</p>
-                    <a href="{% url 'admin:index' %}" class="btn btn-secondary">Go to Admin Panel</a>
+                    <h5 class="card-title">Company Panel</h5>
+                    <p class="card-text">Access the company panel to manage user solicitations and create new users.</p>
+                    <a href="{% url 'company:home' %}" class="btn btn-primary">Go to Company Panel</a>
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
 {% else %}

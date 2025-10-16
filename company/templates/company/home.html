@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+
+{% block title %}Company Home - Super Insurance{% endblock %}
+
+{% block style %}
+<style>
+  .company-dashboard {
+    background-color: #e8f5e9; /* Light green background */
+    padding: 40px;
+    border-radius: 10px;
+  }
+  .company-dashboard h1 {
+    color: #2e7d32; /* Dark green text */
+  }
+  .company-dashboard .list-group-item a {
+    color: #1b5e20; /* Darker green for links */
+    font-weight: bold;
+  }
+  .company-dashboard .list-group-item a:hover {
+    color: #388e3c; /* Lighter green on hover */
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="company-dashboard text-center">
+        <h1>Welcome to the Company Dashboard</h1>
+        <p class="lead">From here you can manage user solicitations and create new users.</p>
+        <div class="list-group mt-4">
+            <a href="{% url 'company:solicitations' %}" class="list-group-item list-group-item-action">View Solicitations</a>
+            <a href="{% url 'company:create_user_with_policy' %}" class="list-group-item list-group-item-action">Create User and Assign Policy</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

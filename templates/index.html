@@ -54,12 +54,12 @@
               <a class="nav-link" href="{% url 'home' %}">Home</a>
             </li>
             {% endblock nav_items %} {% if user.is_authenticated %}
-            <form action="{% url 'users:logout' %}" method="post">
-              {% csrf_token %}
-              <button aria-label="User Logout" title="User Logout">
-                Log out
-              </button>
-            </form>
+            <li class="nav-item">
+              <form action="{% url 'users:logout' %}" method="post" class="d-flex">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Log out</button>
+              </form>
+            </li>
             {% else %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'users:signup' %}">Sign Up</a>

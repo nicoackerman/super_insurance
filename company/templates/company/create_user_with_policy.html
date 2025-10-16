@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+
+{% block title %}Create User with Policy - Super Insurance{% endblock %}
+
+{% block style %}
+<style>
+  .create-user-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="create-user-container">
+    <h2 class="text-center">Create User and Assign Policy</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Create User and Assign Policy</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
