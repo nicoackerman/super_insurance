@@ -3,27 +3,34 @@
 {% block title %}Log In - Super Insurance{% endblock %}
 
 {% block style %}
+<style>
+  .login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
-    <h1>Login</h1>
+<div class="container">
+  <div class="login-container">
+    <h2 class="text-center">Login</h2>
     <form class="form-with-validation" method="post" action="{% url 'users:login' %}">
         {% csrf_token %}
         {% if request.GET.next %}
           <input type="hidden" name="next" value="{{ request.GET.next }}">
         {% endif %}
-        {{ form.non_field_errors }}
-         <div>
-          {{ form.username.label_tag }}
-          {{ form.username }}
-          {{ form.username.errors }}
+        
+        {{ form.as_p }}
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Submit</button>
         </div>
-    
-        <div>
-          {{ form.password.label_tag }}
-          {{ form.password }}
-          {{ form.password.errors }}
-        </div>
-        <button>Submit</button>
     </form>
+  </div>
+</div>
 {% endblock %}
