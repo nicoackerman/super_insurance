@@ -8,6 +8,10 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
     <style>
       body {
         background-color: #f8f9fa;
@@ -35,7 +39,13 @@
   <body>
     <nav class="navbar navbar-expand-lg">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">Super Insurance</a>
+        {% if request.resolver_match.namespace == 'company' %}
+            <a class="navbar-brand" href="{% url 'company:home' %}">Super Insurance</a>
+        {% elif request.resolver_match.namespace == 'client' %}
+            <a class="navbar-brand" href="{% url 'client:home' %}">Super Insurance</a>
+        {% else %}
+            <a class="navbar-brand" href="{% url 'home' %}">Super Insurance</a>
+        {% endif %}
         <button
           class="navbar-toggler"
           type="button"
@@ -50,9 +60,21 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             {% block nav_items %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}">Home</a>
-            </li>
+              {% if request.resolver_match.url_name != 'home' %}
+                {% if request.resolver_match.namespace == 'company' %}
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'company:home' %}">Home</a>
+                  </li>
+                {% elif request.resolver_match.namespace == 'client' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'client:home' %}">Home</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                {% endif %}
+              {% endif %}
             {% endblock nav_items %} {% if user.is_authenticated %}
             <li class="nav-item">
               <form action="{% url 'users:logout' %}" method="post" class="d-flex">

@@ -1,0 +1,70 @@
+{% extends 'index.html' %}
+{% load humanize %}
+
+{% block title %}User List - Super Insurance{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">User List</h1>
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Policies Count</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user, user_policies in users_with_policies.items %}
+            <tr data-user-id="{{ user.id }}">
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user_policies|length }}</td>
+                <td>
+                    <a href="{% url 'company:add_policy_to_user' user.id %}" class="btn btn-success btn-sm me-2">Add Policy</a>
+                    <button class="btn btn-info btn-sm toggle-policies" data-bs-toggle="collapse" data-bs-target="#policies-{{ user.id }}" aria-expanded="false" aria-controls="policies-{{ user.id }}">
+                        View Policies
+                    </button>
+                </td>
+            </tr>
+            <tr class="collapse" id="policies-{{ user.id }}">
+                <td colspan="4">
+                    <div class="p-3 bg-light rounded">
+                        <h5>Policies for {{ user.username }}</h5>
+                        {% if user_policies %}
+                            <ul class="list-group">
+                                {% for user_policy in user_policies %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            {{ user_policy.policy_id.name }} ({{ user_policy.policy_id.policy_number }}) -
+                                            {% if user_policy.policy_id.is_active %}
+                                                <span class="badge bg-success">Active</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">Inactive</span>
+                                            {% endif %}
+                                            {% if user_policy.start_date %}
+                                                <br><small>Start Date: {{ user_policy.start_date }}</small>
+                                            {% endif %}
+                                            {% if user_policy.end_date %}
+                                                <br><small>End Date: {{ user_policy.end_date }}</small>
+                                            {% endif %}
+                                        </div>
+                                        <div>
+                                            <a href="{% url 'company:policy_details' user_policy.policy_id.id %}" class="btn btn-outline-secondary btn-sm me-2">Details</a>
+                                            <a href="{% url 'company:edit_user_policy' user_policy.id %}" class="btn btn-outline-primary btn-sm">Edit</a>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>No policies assigned.</p>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
