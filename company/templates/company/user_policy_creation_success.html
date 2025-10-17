@@ -1,0 +1,13 @@
+{% extends 'index.html' %}
+
+{% block title %}User and Policy Created - Super Insurance{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-success text-center">
+        <h1>User and Policy Created Successfully</h1>
+        <p>The new user has been created and the policy has been assigned successfully.</p>
+        <a href="{% url 'company:home' %}" class="btn btn-primary mt-3">Back to Company Home</a>
+    </div>
+</div>
+{% endblock %}
