@@ -193,6 +193,12 @@ def policy_details(request, policy_id):
     policy = Policy.objects.get(id=policy_id)
     return render(request, 'company/policy_details.html', {'policy': policy})
 
+@login_required
+@user_passes_test(is_admin)
+def solicitation_details(request, solicitation_id):
+    solicitation = UserSolicitation.objects.get(id=solicitation_id)
+    return render(request, 'company/solicitation_details.html', {'solicitation': solicitation})
+
 
 
 

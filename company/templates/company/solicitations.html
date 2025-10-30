@@ -1,11 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>User Solicitations</title>
-</head>
-<body>
-    <h1>User Solicitations</h1>
-    <table>
+{% extends 'index.html' %}
+{% load humanize %}
+
+{% block title %}User Solicitations - Super Insurance{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">User Solicitations</h1>
+
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Title</th>
@@ -13,6 +15,7 @@
                 <th>Policy</th>
                 <th>Status</th>
                 <th>Created At</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -22,10 +25,17 @@
                 <td>{{ solicitation.user_id.username }}</td>
                 <td>{{ solicitation.policy_id.name }}</td>
                 <td>{{ solicitation.status }}</td>
-                <td>{{ solicitation.created_at }}</td>
+                <td>{{ solicitation.created_at|date:"Y-m-d H:i" }}</td>
+                <td>
+                    <a href="{% url 'company:solicitation_details' solicitation.id %}" class="btn btn-primary btn-sm">View</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No solicitations yet.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+</div>
+{% endblock %}

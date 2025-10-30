@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+{% load humanize %}
+
+{% block title %}Solicitation Details - Super Insurance{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Solicitation Details: {{ solicitation.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>User:</strong> {{ solicitation.user_id.username }}</p>
+                    <p><strong>Policy:</strong> {{ solicitation.policy_id.name }}</p>
+                    <p><strong>Status:</strong> {{ solicitation.status }}</p>
+                    <p><strong>Description:</strong> {{ solicitation.description }}</p>
+                    <p><strong>Created At:</strong> {{ solicitation.created_at|date:"Y-m-d H:i" }}</p>
+                    <a href="{% url 'company:solicitations' %}" class="btn btn-secondary">Back to Solicitations</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
