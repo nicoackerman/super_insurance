@@ -1,16 +1,17 @@
 {% extends 'index.html' %}
+{% load i18n %}
 
-{% block title %}Error Creating Policy - Super Insurance{% endblock %}
+{% block title %}{% trans 'Error Creating Policy - Super Insurance' %}{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="alert alert-danger text-center">
-        <h1>Error Creating Policy</h1>
-        <p>There was an error creating the policy. Please review the form and try again.</p>
+        <h1>{% trans 'Error Creating Policy' %}</h1>
+        <p>{% trans 'There was an error creating the policy. Please review the form and try again.' %}</p>
         <div class="mt-3">
             {{ form.errors }}
         </div>
-        <a href="{% url 'company:create_policy' %}" class="btn btn-primary mt-3">Try Again</a>
+        <a href="{% url 'company:create_policy' %}" class="btn btn-primary mt-3">{% trans 'Try Again' %}</a>
     </div>
 </div>
 {% endblock %}

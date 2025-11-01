@@ -1,13 +1,14 @@
 {% extends 'index.html' %}
+{% load i18n %}
 
-{% block title %}Policy Created - Super Insurance{% endblock %}
+{% block title %}{% trans 'Policy Created - Super Insurance' %}{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="alert alert-success text-center">
-        <h1>Policy Created Successfully</h1>
-        <p>The new policy has been added to the system.</p>
-        <a href="{% url 'company:home' %}" class="btn btn-primary mt-3">Back to Company Home</a>
+        <h1>{% trans 'Policy Created Successfully' %}</h1>
+        <p>{% trans 'The new policy has been added to the system.' %}</p>
+        <a href="{% url 'company:home' %}" class="btn btn-primary mt-3">{% trans 'Back to Company Home' %}</a>
     </div>
 </div>
 {% endblock %}

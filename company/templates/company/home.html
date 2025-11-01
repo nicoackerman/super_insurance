@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
+{% load i18n %}
 
-{% block title %}Company Home - Super Insurance{% endblock %}
+{% block title %}{% trans 'Company Home - Super Insurance' %}{% endblock %}
 
 {% block style %}
 <style>
@@ -39,47 +40,47 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="text-center mb-5">Company Dashboard</h1>
+    <h1 class="text-center mb-5">{% trans 'Company Dashboard' %}</h1>
 
-    <h2 class="mb-4">View</h2>
+    <h2 class="mb-4">{% trans 'View' %}</h2>
     <div class="row">
         <div class="col-md-6 col-lg-4 mb-4">
             <a href="{% url 'company:solicitations' %}" class="dashboard-card">
                 <i class="fas fa-file-alt"></i>
-                <h5>View Solicitations</h5>
-                <p>Review and manage user claims.</p>
+                <h5>{% trans 'View Solicitations' %}</h5>
+                <p>{% trans 'Review and manage user claims.' %}</p>
             </a>
         </div>
         <div class="col-md-6 col-lg-4 mb-4">
             <a href="{% url 'company:policies' %}" class="dashboard-card">
                 <i class="fas fa-list"></i>
-                <h5>View Policies</h5>
-                <p>Browse and manage all policies.</p>
+                <h5>{% trans 'View Policies' %}</h5>
+                <p>{% trans 'Browse and manage all policies.' %}</p>
             </a>
         </div>
         <div class="col-md-6 col-lg-4 mb-4">
             <a href="{% url 'company:user_list' %}" class="dashboard-card">
                 <i class="fas fa-users"></i>
-                <h5>View Users</h5>
-                <p>View all non-admin users and their policies.</p>
+                <h5>{% trans 'View Users' %}</h5>
+                <p>{% trans 'View all non-admin users and their policies.' %}</p>
             </a>
         </div>
     </div>
 
-    <h2 class="mb-4 mt-5">Create</h2>
+    <h2 class="mb-4 mt-5">{% trans 'Create' %}</h2>
     <div class="row">
         <div class="col-md-6 col-lg-4 mb-4">
             <a href="{% url 'company:create_user_with_policy' %}" class="dashboard-card">
                 <i class="fas fa-user-plus"></i>
-                <h5>Create User & Policy</h5>
-                <p>Onboard new users with a policy.</p>
+                <h5>{% trans 'Create User & Policy' %}</h5>
+                <p>{% trans 'Onboard new users with a policy.' %}</p>
             </a>
         </div>
         <div class="col-md-6 col-lg-4 mb-4">
             <a href="{% url 'company:create_policy' %}" class="dashboard-card">
                 <i class="fas fa-plus-circle"></i>
-                <h5>Create New Policy</h5>
-                <p>Design and add new insurance policies.</p>
+                <h5>{% trans 'Create New Policy' %}</h5>
+                <p>{% trans 'Design and add new insurance policies.' %}</p>
             </a>
         </div>
     </div>

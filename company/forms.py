@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from client.models import Policy, UserPolicy
+from client.models import Policy, UserPolicy, UserSolicitation
 from django.core.exceptions import ValidationError
 
 class UserPolicyForm(forms.Form):

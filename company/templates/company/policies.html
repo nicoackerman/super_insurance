@@ -1,28 +1,29 @@
 {% extends 'index.html' %}
 {% load humanize %}
+{% load i18n %}
 
-{% block title %}Policies - Super Insurance{% endblock %}
+{% block title %}{% trans 'Policies - Super Insurance' %}{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4">Policies</h1>
+    <h1 class="mb-4">{% trans 'Policies' %}</h1>
 
     <div class="mb-3">
-        <a href="{% url 'company:policies' %}" class="btn btn-secondary">All</a>
-        <a href="{% url 'company:policies' %}?policy_type=vehicle" class="btn btn-primary">Vehicle</a>
-        <a href="{% url 'company:policies' %}?policy_type=property" class="btn btn-info">Property</a>
+        <a href="{% url 'company:policies' %}" class="btn btn-secondary">{% trans 'All' %}</a>
+        <a href="{% url 'company:policies' %}?policy_type=vehicle" class="btn btn-primary">{% trans 'Vehicle' %}</a>
+        <a href="{% url 'company:policies' %}?policy_type=property" class="btn btn-info">{% trans 'Property' %}</a>
     </div>
 
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Number</th>
-                <th>Type</th>
-                <th>Coverage Amount</th>
-                <th>Premium Amount</th>
-                <th>Active</th>
-                <th>Actions</th>
+                <th>{% trans 'Name' %}</th>
+                <th>{% trans 'Number' %}</th>
+                <th>{% trans 'Type' %}</th>
+                <th>{% trans 'Coverage Amount' %}</th>
+                <th>{% trans 'Premium Amount' %}</th>
+                <th>{% trans 'Active' %}</th>
+                <th>{% trans 'Actions' %}</th>
             </tr>
         </thead>
         <tbody>
@@ -35,8 +36,8 @@
                 <td>${{ policy.premium_amount|intcomma }}</td>
                 <td>{{ policy.is_active|yesno:"Yes,No" }}</td>
                 <td>
-                    <a href="{% url 'company:edit_policy' policy.id %}" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="{% url 'company:delete_policy' policy.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="{% url 'company:edit_policy' policy.id %}" class="btn btn-primary btn-sm">{% trans 'Edit' %}</a>
+                    <a href="{% url 'company:delete_policy' policy.id %}" class="btn btn-danger btn-sm">{% trans 'Delete' %}</a>
                 </td>
             </tr>
             {% endfor %}

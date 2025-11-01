@@ -1,9 +1,10 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Super Insurance{% endblock %}</title>
+    <title>{% trans 'Super Insurance' %}</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -40,11 +41,11 @@
     <nav class="navbar navbar-expand-lg">
       <div class="container">
         {% if request.resolver_match.namespace == 'company' %}
-            <a class="navbar-brand" href="{% url 'company:home' %}">Super Insurance</a>
+            <a class="navbar-brand" href="{% url 'company:home' %}">{% trans 'Super Insurance' %}</a>
         {% elif request.resolver_match.namespace == 'client' %}
-            <a class="navbar-brand" href="{% url 'client:home' %}">Super Insurance</a>
+            <a class="navbar-brand" href="{% url 'client:home' %}">{% trans 'Super Insurance' %}</a>
         {% else %}
-            <a class="navbar-brand" href="{% url 'home' %}">Super Insurance</a>
+            <a class="navbar-brand" href="{% url 'home' %}">{% trans 'Super Insurance' %}</a>
         {% endif %}
         <button
           class="navbar-toggler"
@@ -59,19 +60,41 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% get_language_info for LANGUAGE_CODE as lang %}
+                    {{ lang.name_local }}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    {% get_available_languages as LANGUAGES %}
+                    {% for lang_code, lang_name in LANGUAGES %}
+                        <li>
+                            <form action="{% url 'set_language' %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <input name="next" type="hidden" value="{{ request.path }}">
+                                <input name="language" type="hidden" value="{{ lang_code }}">
+                                <button type="submit" class="dropdown-item">
+                                    {{ lang_name }}
+                                </button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
             {% block nav_items %}
               {% if request.resolver_match.url_name != 'home' %}
                 {% if request.resolver_match.namespace == 'company' %}
                   <li class="nav-item">
-                      <a class="nav-link" href="{% url 'company:home' %}">Home</a>
+                      <a class="nav-link" href="{% url 'company:home' %}">{% trans 'Home' %}</a>
                   </li>
                 {% elif request.resolver_match.namespace == 'client' %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'client:home' %}">Home</a>
+                        <a class="nav-link" href="{% url 'client:home' %}">{% trans 'Home' %}</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                        <a class="nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a>
                     </li>
                 {% endif %}
               {% endif %}
@@ -79,15 +102,15 @@
             <li class="nav-item">
               <form action="{% url 'users:logout' %}" method="post" class="d-flex">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger">Log out</button>
+                <button type="submit" class="btn btn-danger">{% trans 'Log out' %}</button>
               </form>
             </li>
             {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'users:signup' %}">Sign Up</a>
+              <a class="nav-link" href="{% url 'users:signup' %}">{% trans 'Sign Up' %}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'users:login' %}">Log In</a>
+              <a class="nav-link" href="{% url 'users:login' %}">{% trans 'Log In' %}</a>
             </li>
             {% endif %}
           </ul>
@@ -99,7 +122,7 @@
 
     <footer class="footer mt-5">
       <div class="container">
-        <p>&copy; 2025 Super Insurance. All rights reserved.</p>
+        <p>{% trans '© 2025 Super Insurance. All rights reserved.' %}</p>
       </div>
     </footer>
 

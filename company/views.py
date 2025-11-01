@@ -35,12 +35,46 @@ def delete_policy(request, policy_id):
 def home(request):
     return render(request, 'company/home.html')
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
+
 @login_required
 @user_passes_test(is_admin)
 def solicitations(request):
-    solicitations = UserSolicitation.objects.all()
-    return render(request, 'company/solicitations.html', {'solicitations': solicitations})
+    status = request.GET.get('status')
+    query = request.GET.get('q')
+    
+    solicitations_list = UserSolicitation.objects.all().order_by('-created_at')
 
+    if status:
+        solicitations_list = solicitations_list.filter(status=status)
+
+    if query:
+        solicitations_list = solicitations_list.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query) |
+            Q(user_id__username__icontains=query) |
+            Q(policy_id__name__icontains=query)
+        )
+
+    paginator = Paginator(solicitations_list, 10)  # Show 10 solicitations per page
+    page = request.GET.get('page')
+
+    try:
+        solicitations = paginator.page(page)
+    except PageNotAnInteger:
+        solicitations = paginator.page(1)
+    except EmptyPage:
+        solicitations = paginator.page(paginator.num_pages)
+    
+    status_choices = UserSolicitation.STATUS_CHOICES
+    
+    return render(request, 'company/solicitations.html', {
+        'solicitations': solicitations,
+        'status_choices': status_choices,
+        'query': query,
+        'status': status,
+    })
 from django.contrib import messages
 
 @login_required

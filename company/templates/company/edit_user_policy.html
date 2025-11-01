@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
+{% load i18n %}
 
-{% block title %}Edit User Policy - Super Insurance{% endblock %}
+{% block title %}{% trans 'Edit User Policy - Super Insurance' %}{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
@@ -8,19 +9,19 @@
         <div class="col-md-6 offset-md-3">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Edit Policy for {{ user_policy.user_id.username }}</h3>
+                    <h3 class="card-title">{% trans 'Edit Policy for' %} {{ user_policy.user_id.username }}</h3>
                 </div>
                 <div class="card-body">
-                    <p><strong>Policy Name:</strong> {{ policy.name }}</p>
-                    <p><strong>Policy Number:</strong> {{ policy.policy_number }}</p>
-                    <p><strong>Current Status:</strong> {% if policy.is_active %}Active{% else %}Inactive{% endif %}</p>
+                    <p><strong>{% trans 'Policy Name' %}:</strong> {{ policy.name }}</p>
+                    <p><strong>{% trans 'Policy Number' %}:</strong> {{ policy.policy_number }}</p>
+                    <p><strong>{% trans 'Current Status' %}:</strong> {% if policy.is_active %}{% trans 'Active' %}{% else %}{% trans 'Inactive' %}{% endif %}</p>
                     <form method="post">
                         {% csrf_token %}
                         {{ form.as_p }}
                         <button type="submit" class="btn btn-{% if policy.is_active %}warning{% else %}success{% endif %}">
-                            {% if policy.is_active %}Deactivate{% else %}Activate{% endif %} Policy
+                            {% if policy.is_active %}{% trans 'Deactivate' %}{% else %}{% trans 'Activate' %}{% endif %} {% trans 'Policy' %}
                         </button>
-                        <a href="{% url 'company:user_list' %}" class="btn btn-secondary">Cancel</a>
+                        <a href="{% url 'company:user_list' %}" class="btn btn-secondary">{% trans 'Cancel' %}</a>
                     </form>
                 </div>
             </div>

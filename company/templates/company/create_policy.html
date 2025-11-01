@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
+{% load i18n %}
 
-{% block title %}Create Policy - Super Insurance{% endblock %}
+{% block title %}{% trans 'Create Policy - Super Insurance' %}{% endblock %}
 
 {% block style %}
 <style>
@@ -18,12 +19,12 @@
 {% block content %}
 <div class="container">
   <div class="create-policy-container">
-    <h2 class="text-center">Create New Policy</h2>
+    <h2 class="text-center">{% trans 'Create New Policy' %}</h2>
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
       <div class="d-grid">
-        <button type="submit" class="btn btn-primary">Create Policy</button>
+        <button type="submit" class="btn btn-primary">{% trans 'Create Policy' %}</button>
       </div>
     </form>
   </div>

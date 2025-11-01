@@ -13,7 +13,6 @@
                     <h3 class="card-title">{% trans 'Solicitation Details' %}: {{ solicitation.title }}</h3>
                 </div>
                 <div class="card-body">
-                    <p><strong>{% trans 'User' %}:</strong> {{ solicitation.user_id.username }}</p>
                     <p><strong>{% trans 'Policy' %}:</strong> {{ solicitation.policy_id.name }}</p>
                     <p><strong>{% trans 'Status' %}:</strong> {{ solicitation.status }}</p>
                     <p><strong>{% trans 'Description' %}:</strong> {{ solicitation.description }}</p>
@@ -30,7 +29,7 @@
                     {% if solicitation.witnesses %}<p><strong>{% trans 'Witnesses' %}:</strong> {{ solicitation.witnesses }}</p>{% endif %}
                     {% if solicitation.police_report_number %}<p><strong>{% trans 'Police Report Number' %}:</strong> {{ solicitation.police_report_number }}</p>{% endif %}
                     <p><strong>{% trans 'Created At' %}:</strong> {{ solicitation.created_at|date:"Y-m-d H:i" }}</p>
-                    <a href="{% url 'company:solicitations' %}" class="btn btn-secondary">{% trans 'Back to Solicitations' %}</a>
+                    <a href="{% url 'client:solicitations' %}" class="btn btn-secondary">{% trans 'Back to My Solicitations' %}</a>
                 </div>
             </div>
         </div>

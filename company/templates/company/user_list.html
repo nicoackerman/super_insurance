@@ -1,18 +1,19 @@
 {% extends 'index.html' %}
 {% load humanize %}
+{% load i18n %}
 
-{% block title %}User List - Super Insurance{% endblock %}
+{% block title %}{% trans 'User List - Super Insurance' %}{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4">User List</h1>
+    <h1 class="mb-4">{% trans 'User List' %}</h1>
     <table class="table table-hover table-bordered">
         <thead class="table-dark">
             <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Policies Count</th>
-                <th>Actions</th>
+                <th>{% trans 'Username' %}</th>
+                <th>{% trans 'Email' %}</th>
+                <th>{% trans 'Policies Count' %}</th>
+                <th>{% trans 'Actions' %}</th>
             </tr>
         </thead>
         <tbody>
@@ -22,16 +23,16 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user_policies|length }}</td>
                 <td>
-                    <a href="{% url 'company:add_policy_to_user' user.id %}" class="btn btn-success btn-sm me-2">Add Policy</a>
+                    <a href="{% url 'company:add_policy_to_user' user.id %}" class="btn btn-success btn-sm me-2">{% trans 'Add Policy' %}</a>
                     <button class="btn btn-info btn-sm toggle-policies" data-bs-toggle="collapse" data-bs-target="#policies-{{ user.id }}" aria-expanded="false" aria-controls="policies-{{ user.id }}">
-                        View Policies
+                        {% trans 'View Policies' %}
                     </button>
                 </td>
             </tr>
             <tr class="collapse" id="policies-{{ user.id }}">
                 <td colspan="4">
                     <div class="p-3 bg-light rounded">
-                        <h5>Policies for {{ user.username }}</h5>
+                        <h5>{% trans 'Policies for' %} {{ user.username }}</h5>
                         {% if user_policies %}
                             <ul class="list-group">
                                 {% for user_policy in user_policies %}
@@ -39,26 +40,26 @@
                                         <div>
                                             {{ user_policy.policy_id.name }} ({{ user_policy.policy_id.policy_number }}) -
                                             {% if user_policy.policy_id.is_active %}
-                                                <span class="badge bg-success">Active</span>
+                                                <span class="badge bg-success">{% trans 'Active' %}</span>
                                             {% else %}
-                                                <span class="badge bg-danger">Inactive</span>
+                                                <span class="badge bg-danger">{% trans 'Inactive' %}</span>
                                             {% endif %}
                                             {% if user_policy.start_date %}
-                                                <br><small>Start Date: {{ user_policy.start_date }}</small>
+                                                <br><small>{% trans 'Start Date:' %} {{ user_policy.start_date }}</small>
                                             {% endif %}
                                             {% if user_policy.end_date %}
-                                                <br><small>End Date: {{ user_policy.end_date }}</small>
+                                                <br><small>{% trans 'End Date:' %} {{ user_policy.end_date }}</small>
                                             {% endif %}
                                         </div>
                                         <div>
-                                            <a href="{% url 'company:policy_details' user_policy.policy_id.id %}" class="btn btn-outline-secondary btn-sm me-2">Details</a>
-                                            <a href="{% url 'company:edit_user_policy' user_policy.id %}" class="btn btn-outline-primary btn-sm">Edit</a>
+                                            <a href="{% url 'company:policy_details' user_policy.policy_id.id %}" class="btn btn-outline-secondary btn-sm me-2">{% trans 'Details' %}</a>
+                                            <a href="{% url 'company:edit_user_policy' user_policy.id %}" class="btn btn-outline-primary btn-sm">{% trans 'Edit' %}</a>
                                         </div>
                                     </li>
                                 {% endfor %}
                             </ul>
                         {% else %}
-                            <p>No policies assigned.</p>
+                            <p>{% trans 'No policies assigned.' %}</p>
                         {% endif %}
                     </div>
                 </td>

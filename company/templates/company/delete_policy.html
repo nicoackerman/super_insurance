@@ -1,15 +1,16 @@
 {% extends 'index.html' %}
+{% load i18n %}
 
-{% block title %}Delete Policy - Super Insurance{% endblock %}
+{% block title %}{% trans 'Delete Policy - Super Insurance' %}{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4">Delete Policy</h1>
-    <p>Are you sure you want to delete the policy "{{ policy.name }}"?</p>
+    <h1 class="mb-4">{% trans 'Delete Policy' %}</h1>
+    <p>{% trans 'Are you sure you want to delete the policy' %} "{{ policy.name }}"?</p>
     <form method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Delete</button>
-        <a href="{% url 'company:policies' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-danger">{% trans 'Delete' %}</button>
+        <a href="{% url 'company:policies' %}" class="btn btn-secondary">{% trans 'Cancel' %}</a>
     </form>
 </div>
 {% endblock %}

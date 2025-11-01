@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
+{% load i18n %}
 
-{% block title %}Add Policy to {{ user.username }}{% endblock %}
+{% block title %}{% trans 'Add Policy to' %} {{ user.username }}{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
@@ -8,13 +9,13 @@
         <div class="col-md-6 offset-md-3">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Add Policy to {{ user.username }}</h3>
+                    <h3 class="card-title">{% trans 'Add Policy to' %} {{ user.username }}</h3>
                 </div>
                 <div class="card-body">
                     <form method="post">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit" class="btn btn-primary">Add Policy</button>
+                        <button type="submit" class="btn btn-primary">{% trans 'Add Policy' %}</button>
                     </form>
                 </div>
             </div>

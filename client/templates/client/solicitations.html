@@ -1,20 +1,18 @@
 {% extends 'index.html' %}
 {% load humanize %}
-
-{% load humanize %}
 {% load i18n %}
 
-{% block title %}{% trans 'User Solicitations - Super Insurance' %}{% endblock %}
+{% block title %}{% trans 'My Solicitations - Super Insurance' %}{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4">{% trans 'User Solicitations' %}</h1>
+    <h1 class="mb-4">{% trans 'My Solicitations' %}</h1>
 
     <div class="mb-3">
         <form method="get" class="row g-3 align-items-center">
             <div class="col-md-4">
                 <label for="searchQuery" class="visually-hidden">{% trans 'Search' %}</label>
-                <input type="text" class="form-control" id="searchQuery" name="q" placeholder="{% trans 'Search by title, user, policy...' %}" value="{{ request.GET.q }}">
+                <input type="text" class="form-control" id="searchQuery" name="q" placeholder="{% trans 'Search by title, policy...' %}" value="{{ request.GET.q }}">
             </div>
             <div class="col-md-4">
                 <label for="statusFilter" class="visually-hidden">{% trans 'Status' %}</label>
@@ -29,7 +27,7 @@
                 <button type="submit" class="btn btn-primary w-100">{% trans 'Filter' %}</button>
             </div>
             <div class="col-md-2">
-                <a href="{% url 'company:solicitations' %}" class="btn btn-secondary w-100">{% trans 'Reset' %}</a>
+                <a href="{% url 'client:solicitations' %}" class="btn btn-secondary w-100">{% trans 'Reset' %}</a>
             </div>
         </form>
     </div>
@@ -38,7 +36,6 @@
         <thead>
             <tr>
                 <th>{% trans 'Title' %}</th>
-                <th>{% trans 'User' %}</th>
                 <th>{% trans 'Policy' %}</th>
                 <th>{% trans 'Status' %}</th>
                 <th>{% trans 'Actions' %}</th>
@@ -48,7 +45,6 @@
             {% for solicitation in solicitations %}
             <tr>
                 <td>{{ solicitation.title }}</td>
-                <td>{{ solicitation.user_id.username }}</td>
                 <td>{{ solicitation.policy_id.name }}</td>
                 <td>
                     {% if solicitation.status == 'Pending' %}
@@ -66,12 +62,12 @@
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{% url 'company:solicitation_details' solicitation.id %}" class="btn btn-info btn-sm">{% trans 'View Details' %}</a>
+                    <a href="{% url 'client:solicitation_details' solicitation.id %}" class="btn btn-info btn-sm">{% trans 'View Details' %}</a>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="5" class="text-center">{% trans 'No solicitations yet.' %}</td>
+                <td colspan="4" class="text-center">{% trans 'You have no solicitations yet.' %}</td>
             </tr>
             {% endfor %}
         </tbody>

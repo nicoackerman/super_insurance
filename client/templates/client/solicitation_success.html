@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
+{% load i18n %}
 
-{% block title %}Submission Successful - Super Insurance{% endblock %}
+{% block title %}{% trans 'Submission Successful - Super Insurance' %}{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
@@ -8,13 +9,13 @@
         <div class="col-md-8">
             <div class="card text-center border-success">
                 <div class="card-header bg-success text-white">
-                    Submission Successful
+                    {% trans 'Submission Successful' %}
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title text-success">Your Claim Has Been Submitted.</h5>
-                    <p class="card-text">Your claim has been filed successfully and is currently under review. You will receive an update soon via email.</p>
-                    <a href="{% url 'client:create_solicitation' %}" class="btn btn-primary">File Another Claim</a>
-                    <a href="{% url 'client:home' %}" class="btn btn-secondary">Go Back to Home</a>
+                    <h5 class="card-title text-success">{% trans 'Your Claim Has Been Submitted.' %}</h5>
+                    <p class="card-text">{% trans 'Your claim has been filed successfully and is currently under review. You will receive an update soon via email.' %}</p>
+                    <a href="{% url 'client:create_solicitation' %}" class="btn btn-primary">{% trans 'File Another Claim' %}</a>
+                    <a href="{% url 'client:home' %}" class="btn btn-secondary">{% trans 'Go Back to Home' %}</a>
                 </div>
             </div>
         </div>

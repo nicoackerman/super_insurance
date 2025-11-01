@@ -1,125 +1,62 @@
-{% extends 'index.html' %} {% block title %}Home - Super Insurance{% endblock %}
+{% extends 'index.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Client Home - Super Insurance' %}{% endblock %}
+
 {% block style %}
 <style>
-  .hero-section {
-    background: url("https://via.placeholder.com/1500x500") no-repeat center
-      center;
-    background-size: cover;
-    color: white;
-    padding: 150px 0;
+  .dashboard-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    padding: 20px;
     text-align: center;
-    animation: fadeIn 2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+  .dashboard-card:hover {
+    transform: translateY(-5px);
   }
-
-  .card {
-    margin-bottom: 30px;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  .dashboard-card i {
+    font-size: 3rem;
+    color: #003366;
+    margin-bottom: 15px;
   }
-
-  .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  .dashboard-card h5 {
+    color: #003366;
+    font-weight: bold;
   }
-
-  .card img {
-    height: 250px;
-    object-fit: cover;
+  .dashboard-card p {
+    color: #6c757d;
   }
-
-  .login-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
+  .dashboard-card a {
     text-decoration: none;
-    border-radius: 5px;
-    margin-top: 20px;
-    transition: background-color 0.3s, transform 0.3s;
-    animation: pulse 2s infinite;
-  }
-
-  .login-button:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-  }
-
-  .arrow {
-    margin-left: 10px;
-    display: inline-block;
-    animation: slide 1s infinite;
-  }
-
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.05);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-
-  @keyframes slide {
-    0% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(10px);
-    }
-    100% {
-      transform: translateX(0);
-    }
+    color: inherit;
   }
 </style>
-{% endblock %} {% block content %}
-<div class="hero-section">
-  <div class="container">
-    <h1 class="display-4">Secure Your Assets with Super Insurance</h1>
-    <p class="lead">The best protection for your home and vehicle</p>
-  </div>
-</div>
+{% endblock %}
 
+{% block content %}
 <div class="container mt-5">
-  <div class="row">
-    <div class="col-lg-6">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Vehicle Insurance</h5>
-          <p class="card-text">
-            Protect your vehicle against accidents, theft, and other damages.
-            Get a quote today!
-          </p>
-          <a
-            href="{% url 'client:create_solicitation' %}"
-            class="btn btn-primary"
-            >Get a Quote</a
-          >
+    <h1 class="text-center mb-5">{% trans 'Client Dashboard' %}</h1>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <a href="{% url 'client:create_solicitation' %}" class="dashboard-card">
+                <i class="fas fa-file-alt"></i>
+                <h5>{% trans 'Make a Solicitation' %}</h5>
+                <p>{% trans 'File a new claim for your policy.' %}</p>
+            </a>
         </div>
-      </div>
-    </div>
-    <div class="col-lg-6">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Home Insurance</h5>
-          <p class="card-text">
-            Secure your home from natural disasters, theft, and other risks.
-            Your peace of mind is our priority.
-          </p>
-          <a href="#" class="btn btn-primary">Get a Quote</a>
+        <div class="col-md-6 mb-4">
+            <a href="{% url 'client:solicitations' %}" class="dashboard-card">
+                <i class="fas fa-list"></i>
+                <h5>{% trans 'View Your Solicitations' %}</h5>
+                <p>{% trans 'You have' %} {{ total_solicitations }} {% trans 'solicitations.' %}</p>
+            </a>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 {% endblock %}
