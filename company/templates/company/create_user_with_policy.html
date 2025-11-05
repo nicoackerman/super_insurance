@@ -3,36 +3,13 @@
 
 {% block title %}{% trans 'Create User with Policy - Super Insurance' %}{% endblock %}
 
-{% block style %}
-<style>
-  .create-user-container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 40px;
-    border-radius: 15px;
-    background-color: #ffffff;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  }
-  .form-label {
-    font-weight: bold;
-    color: #003366;
-  }
-  .form-control {
-    border-radius: 0.25rem;
-    border: 1px solid #ced4da;
-    padding: 0.375rem 0.75rem;
-  }
-  .form-control:focus {
-    border-color: #80bdff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="container">
-  <div class="create-user-container">
-    <h2 class="text-center mb-4">{% trans 'Create User and Assign Policy' %}</h2>
+<div class="container py-5">
+  <div class="form-container">
+    <div class="text-center mb-4">
+        <h2 class="mb-2">{% trans 'Create User and Assign Policy' %}</h2>
+        <p class="text-muted">{% trans 'Fill in the details below to create a new user and assign an insurance policy.' %}</p>
+    </div>
     {% if messages %}
         <div class="alert alert-danger">
             {% for message in messages %}

@@ -4,7 +4,7 @@
 {% block title %}{% trans 'Edit User Policy - Super Insurance' %}{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container py-5">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="card">
@@ -18,10 +18,10 @@
                     <form method="post">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit" class="btn btn-{% if policy.is_active %}warning{% else %}success{% endif %}">
+                        <button type="submit" class="btn btn-lg" style="background-color: {% if policy.is_active %}var(--warning){% else %}var(--success){% endif %}; color: var(--surface); border-color: {% if policy.is_active %}var(--warning){% else %}var(--success){% endif %};">
                             {% if policy.is_active %}{% trans 'Deactivate' %}{% else %}{% trans 'Activate' %}{% endif %} {% trans 'Policy' %}
                         </button>
-                        <a href="{% url 'company:user_list' %}" class="btn btn-secondary">{% trans 'Cancel' %}</a>
+                        <a href="{% url 'company:user_list' %}" class="btn btn-secondary btn-lg">{% trans 'Cancel' %}</a>
                     </form>
                 </div>
             </div>

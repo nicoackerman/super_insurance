@@ -4,15 +4,15 @@
 {% block title %}{% trans 'Submission Successful - Super Insurance' %}{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card text-center border-success">
-                <div class="card-header bg-success text-white">
+                <div class="card-header text-white" style="background-color: var(--success);">
                     {% trans 'Submission Successful' %}
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title text-success">{% trans 'Your Claim Has Been Submitted.' %}</h5>
+                    <h5 class="card-title" style="color: var(--success);">{% trans 'Your Claim Has Been Submitted.' %}</h5>
                     <p class="card-text">{% trans 'Your claim has been filed successfully and is currently under review. You will receive an update soon via email.' %}</p>
                     <a href="{% url 'client:create_solicitation' %}" class="btn btn-primary">{% trans 'File Another Claim' %}</a>
                     <a href="{% url 'client:home' %}" class="btn btn-secondary">{% trans 'Go Back to Home' %}</a>

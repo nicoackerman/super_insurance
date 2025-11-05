@@ -4,8 +4,8 @@
 {% block title %}{% trans 'Policy Created - Super Insurance' %}{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="alert alert-success text-center">
+<div class="container py-5">
+    <div class="alert text-center" style="background-color: var(--success); color: var(--surface);">
         <h1>{% trans 'Policy Created Successfully' %}</h1>
         <p>{% trans 'The new policy has been added to the system.' %}</p>
         <a href="{% url 'company:home' %}" class="btn btn-primary mt-3">{% trans 'Back to Company Home' %}</a>

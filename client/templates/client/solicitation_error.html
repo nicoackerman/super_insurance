@@ -4,15 +4,15 @@
 {% block title %}{% trans 'Submission Failed - Super Insurance' %}{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card text-center border-danger">
-                <div class="card-header bg-danger text-white">
+                <div class="card-header text-white" style="background-color: var(--error);">
                     {% trans 'Submission Failed' %}
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title text-danger">{% trans 'There was a problem with your submission.' %}</h5>
+                    <h5 class="card-title" style="color: var(--error);">{% trans 'There was a problem with your submission.' %}</h5>
                     <p class="card-text">{% trans 'We couldn\'t process your claim. Please review the information you provided and try again.' %}</p>
                     <a href="{% url 'client:create_solicitation' %}" class="btn btn-primary">{% trans 'Try Again' %}</a>
                     <a href="{% url 'client:home' %}" class="btn btn-secondary">{% trans 'Go Back to Home' %}</a>

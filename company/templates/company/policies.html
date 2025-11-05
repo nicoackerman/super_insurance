@@ -5,43 +5,47 @@
 {% block title %}{% trans 'Policies - Super Insurance' %}{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container py-5">
     <h1 class="mb-4">{% trans 'Policies' %}</h1>
 
     <div class="mb-3">
         <a href="{% url 'company:policies' %}" class="btn btn-secondary">{% trans 'All' %}</a>
         <a href="{% url 'company:policies' %}?policy_type=vehicle" class="btn btn-primary">{% trans 'Vehicle' %}</a>
-        <a href="{% url 'company:policies' %}?policy_type=property" class="btn btn-info">{% trans 'Property' %}</a>
+        <a href="{% url 'company:policies' %}?policy_type=property" class="btn btn-info" style="background-color: var(--info); border-color: var(--info); color: var(--surface);">{% trans 'Property' %}</a>
     </div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>{% trans 'Name' %}</th>
-                <th>{% trans 'Number' %}</th>
-                <th>{% trans 'Type' %}</th>
-                <th>{% trans 'Coverage Amount' %}</th>
-                <th>{% trans 'Premium Amount' %}</th>
-                <th>{% trans 'Active' %}</th>
-                <th>{% trans 'Actions' %}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for policy in policies %}
-            <tr>
-                <td>{{ policy.name }}</td>
-                <td>{{ policy.policy_number }}</td>
-                <td>{{ policy.get_policy_type_display }}</td>
-                <td>${{ policy.coverage_amount|intcomma }}</td>
-                <td>${{ policy.premium_amount|intcomma }}</td>
-                <td>{{ policy.is_active|yesno:"Yes,No" }}</td>
-                <td>
-                    <a href="{% url 'company:edit_policy' policy.id %}" class="btn btn-primary btn-sm">{% trans 'Edit' %}</a>
-                    <a href="{% url 'company:delete_policy' policy.id %}" class="btn btn-danger btn-sm">{% trans 'Delete' %}</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="card p-3">
+        <div class="table-responsive">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>{% trans 'Name' %}</th>
+                        <th>{% trans 'Number' %}</th>
+                        <th>{% trans 'Type' %}</th>
+                        <th>{% trans 'Coverage Amount' %}</th>
+                        <th>{% trans 'Premium Amount' %}</th>
+                        <th>{% trans 'Active' %}</th>
+                        <th>{% trans 'Actions' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for policy in policies %}
+                    <tr>
+                        <td>{{ policy.name }}</td>
+                        <td>{{ policy.policy_number }}</td>
+                        <td>{{ policy.get_policy_type_display }}</td>
+                        <td>${{ policy.coverage_amount|intcomma }}</td>
+                        <td>${{ policy.premium_amount|intcomma }}</td>
+                        <td>{{ policy.is_active|yesno:"Yes,No" }}</td>
+                        <td>
+                            <a href="{% url 'company:edit_policy' policy.id %}" class="btn btn-primary btn-sm">{% trans 'Edit' %}</a>
+                            <a href="{% url 'company:delete_policy' policy.id %}" class="btn btn-danger btn-sm">{% trans 'Delete' %}</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

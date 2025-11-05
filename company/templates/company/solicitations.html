@@ -1,13 +1,11 @@
 {% extends 'index.html' %}
 {% load humanize %}
-
-{% load humanize %}
 {% load i18n %}
 
 {% block title %}{% trans 'User Solicitations - Super Insurance' %}{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container py-5">
     <h1 class="mb-4">{% trans 'User Solicitations' %}</h1>
 
     <div class="mb-3">
@@ -34,57 +32,61 @@
         </form>
     </div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>{% trans 'Title' %}</th>
-                <th>{% trans 'User' %}</th>
-                <th>{% trans 'Policy' %}</th>
-                <th>{% trans 'Status' %}</th>
-                <th>{% trans 'Actions' %}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for solicitation in solicitations %}
-            <tr>
-                <td>{{ solicitation.title }}</td>
-                <td>{{ solicitation.user_id.username }}</td>
-                <td>{{ solicitation.policy_id.name }}</td>
-                <td>
-                    {% if solicitation.status == 'Pending' %}
-                        <span class="badge bg-secondary">{{ solicitation.status }}</span>
-                    {% elif solicitation.status == 'Under Review' %}
-                        <span class="badge bg-info">{{ solicitation.status }}</span>
-                    {% elif solicitation.status == 'Approved' %}
-                        <span class="badge bg-success">{{ solicitation.status }}</span>
-                    {% elif solicitation.status == 'Rejected' %}
-                        <span class="badge bg-danger">{{ solicitation.status }}</span>
-                    {% elif solicitation.status == 'Successful' %}
-                        <span class="badge bg-primary">{{ solicitation.status }}</span>
-                    {% else %}
-                        <span class="badge bg-dark">{{ solicitation.status }}</span>
-                    {% endif %}
-                </td>
-                <td>
-                    <a href="{% url 'company:solicitation_details' solicitation.id %}" class="btn btn-info btn-sm">{% trans 'View Details' %}</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5" class="text-center">{% trans 'No solicitations yet.' %}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="card p-3">
+        <div class="table-responsive">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>{% trans 'Title' %}</th>
+                        <th>{% trans 'User' %}</th>
+                        <th>{% trans 'Policy' %}</th>
+                        <th>{% trans 'Status' %}</th>
+                        <th>{% trans 'Actions' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for solicitation in solicitations %}
+                    <tr>
+                        <td>{{ solicitation.title }}</td>
+                        <td>{{ solicitation.user_id.username }}</td>
+                        <td>{{ solicitation.policy_id.name }}</td>
+                        <td>
+                            {% if solicitation.status == 'Pending' %}
+                                <span class="badge" style="background-color: var(--secondary);">{{ solicitation.status }}</span>
+                            {% elif solicitation.status == 'Under Review' %}
+                                <span class="badge" style="background-color: var(--info);">{{ solicitation.status }}</span>
+                            {% elif solicitation.status == 'Approved' %}
+                                <span class="badge" style="background-color: var(--success);">{{ solicitation.status }}</span>
+                            {% elif solicitation.status == 'Rejected' %}
+                                <span class="badge" style="background-color: var(--error);">{{ solicitation.status }}</span>
+                            {% elif solicitation.status == 'Successful' %}
+                                <span class="badge" style="background-color: var(--primary);">{{ solicitation.status }}</span>
+                            {% else %}
+                                <span class="badge" style="background-color: var(--dark);">{{ solicitation.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'company:solicitation_details' solicitation.id %}" class="btn btn-info btn-sm">{% trans 'View Details' %}</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">{% trans 'No solicitations yet.' %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <div class="pagination">
+    <div class="pagination mt-4">
         <span class="step-links">
             {% if solicitations.has_previous %}
                 <a href="?page=1&q={{ query }}&status={{ status }}" class="btn btn-outline-primary">&laquo; {% trans 'first' %}</a>
                 <a href="?page={{ solicitations.previous_page_number }}&q={{ query }}&status={{ status }}" class="btn btn-outline-primary">{% trans 'previous' %}</a>
             {% endif %}
 
-            <span class="current">
+            <span class="current mx-2">
                 {% trans 'Page' %} {{ solicitations.number }} of {{ solicitations.paginator.num_pages }}.
             </span>
 

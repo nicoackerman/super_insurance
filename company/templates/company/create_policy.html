@@ -3,28 +3,18 @@
 
 {% block title %}{% trans 'Create Policy - Super Insurance' %}{% endblock %}
 
-{% block style %}
-<style>
-  .create-policy-container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #fff;
-  }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="container">
-  <div class="create-policy-container">
-    <h2 class="text-center">{% trans 'Create New Policy' %}</h2>
+<div class="container py-5">
+  <div class="form-container">
+    <div class="text-center mb-4">
+        <h2 class="mb-2">{% trans 'Create New Policy' %}</h2>
+        <p class="text-muted">{% trans 'Fill in the details below to create a new insurance policy.' %}</p>
+    </div>
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
-      <div class="d-grid">
-        <button type="submit" class="btn btn-primary">{% trans 'Create Policy' %}</button>
+      <div class="d-grid mt-4">
+        <button type="submit" class="btn btn-primary btn-lg">{% trans 'Create Policy' %}</button>
       </div>
     </form>
   </div>
