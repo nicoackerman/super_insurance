@@ -3,146 +3,108 @@
 
 {% block title %}{% trans 'Home - Super Insurance' %}{% endblock %}
 
-{% block style %}
-<style>
-    .hero-section {
-        background: url('https://via.placeholder.com/1500x500') no-repeat center center;
-        background-size: cover;
-        color: white;
-        padding: 150px 0;
-        text-align: center;
-        animation: fadeIn 2s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    .card {
-        margin-bottom: 30px;
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    }
-
-    .card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-
-    .card img {
-        height: 250px;
-        object-fit: cover;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
 <div class="hero-section">
     <div class="container">
-        <h1 class="display-4">{% trans 'Welcome to Super Insurance' %}</h1>
-        <p class="lead">{% trans 'Your one-stop insurance solution' %}</p>
+        <h1 class="display-4 fw-bold">{% trans 'Welcome to Super Insurance' %}</h1>
+        <p class="lead">{% trans 'Your one-stop insurance solution for a secure future.' %}</p>
     </div>
 </div>
 
-{% if user.is_authenticated %}
-<div class="container mt-5">
-    <div class="row">
-        {% if not user.is_superuser %}
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{% trans 'Client Area' %}</h5>
-                    <p class="card-text">{% trans 'Manage your insurance policies, view your profile, and get in touch with us.' %}</p>
-                    <a href="{% url 'client:home' %}" class="btn btn-primary">{% trans 'Go to Client Area' %}</a>
+<div class="container py-5">
+    {% if user.is_authenticated %}
+        <div class="row justify-content-center">
+            {% if not user.is_superuser %}
+            <div class="col-lg-6">
+                <div class="card text-center">
+                    <div class="card-body p-5">
+                        <h5 class="card-title">{% trans 'Client Area' %}</h5>
+                        <p class="card-text">{% trans 'Manage your insurance policies, view your profile, and get in touch with us.' %}</p>
+                        <a href="{% url 'client:home' %}" class="btn btn-primary btn-lg">{% trans 'Go to Client Area' %}</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if user.is_superuser %}
+            <div class="col-lg-6">
+                <div class="card text-center">
+                    <div class="card-body p-5">
+                        <h5 class="card-title">{% trans 'Company Panel' %}</h5>
+                        <p class="card-text">{% trans 'Access the company panel to manage user solicitations and create new users.' %}</p>
+                        <a href="{% url 'company:home' %}" class="btn btn-primary btn-lg">{% trans 'Go to Company Panel' %}</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">{% trans 'Our Insurance Plans' %}</h2>
+            <p class="lead text-muted">{% trans 'Find the perfect plan to fit your needs.' %}</p>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <img src="https://images.unsplash.com/photo-1579621970795-87f54d707d8f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyfDB8MXxzZWFyY2h8N3x8aGVhbHRoJTIwaW5zdXJhbmNlfGVufDB8fHx8MTY3OTg2ODg0Mg&ixlib=rb-4.0.3&q=80&w=400" class="card-img-top" alt="{% trans 'Health Insurance' %}">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans 'Health Insurance' %}</h5>
+                        <p class="card-text">{% trans 'Comprehensive health coverage for you and your family. Stay protected against unexpected medical expenses.' %}</p>
+                        <a href="#" class="btn btn-outline-primary">{% trans 'Learn More' %}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <img src="https://images.unsplash.com/photo-1587614382346-4ec580c4c9c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyfDB8MXxzZWFyY2h8MTF8fGF1dG8lMjBpbnN1cmFuY2V8ZW58MHx8fHwxNjc5ODcwMjYy&ixlib=rb-4.0.3&q=80&w=400" class="card-img-top" alt="{% trans 'Auto Insurance' %}">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans 'Auto Insurance' %}</h5>
+                        <p class="card-text">{% trans 'Protect your vehicle with our reliable auto insurance plans. Coverage for accidents, theft, and more.' %}</p>
+                        <a href="#" class="btn btn-outline-primary">{% trans 'Learn More' %}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6164a8363c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyfDB8MXxzZWFyY2h8Mnx8aG9tZSUyMGluc3VyYW5jZXxlbnwwfHx8fDE2Nzk4NzAyODg&ixlib=rb-4.0.3&q=80&w=400" class="card-img-top" alt="{% trans 'Home Insurance' %}">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans 'Home Insurance' %}</h5>
+                        <p class="card-text">{% trans 'Secure your home and belongings with our comprehensive home insurance policies. Peace of mind for your biggest asset.' %}</p>
+                        <a href="#" class="btn btn-outline-primary">{% trans 'Learn More' %}</a>
+                    </div>
                 </div>
             </div>
         </div>
-        {% endif %}
-        {% if user.is_superuser %}
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{% trans 'Company Panel' %}</h5>
-                    <p class="card-text">{% trans 'Access the company panel to manage user solicitations and create new users.' %}</p>
-                    <a href="{% url 'company:home' %}" class="btn btn-primary">{% trans 'Go to Company Panel' %}</a>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-    </div>
-</div>
-{% else %}
-<div class="container mt-5">
-    <div class="text-center mb-5">
-        <h2>{% trans 'Our Insurance Plans' %}</h2>
-        <p class="lead">{% trans 'Find the perfect plan to fit your needs.' %}</p>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="{% trans 'Health Insurance' %}">
-                <div class="card-body">
-                    <h5 class="card-title">{% trans 'Health Insurance' %}</h5>
-                    <p class="card-text">{% trans 'Comprehensive health coverage for you and your family. Stay protected against unexpected medical expenses.' %}</p>
-                    <a href="#" class="btn btn-info">{% trans 'Learn More' %}</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="{% trans 'Auto Insurance' %}">
-                <div class="card-body">
-                    <h5 class="card-title">{% trans 'Auto Insurance' %}</h5>
-                    <p class="card-text">{% trans 'Protect your vehicle with our reliable auto insurance plans. Coverage for accidents, theft, and more.' %}</p>
-                    <a href="#" class="btn btn-info">{% trans 'Learn More' %}</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="{% trans 'Home Insurance' %}">
-                <div class="card-body">
-                    <h5 class="card-title">{% trans 'Home Insurance' %}</h5>
-                    <p class="card-text">{% trans 'Secure your home and belongings with our comprehensive home insurance policies. Peace of mind for your biggest asset.' %}</p>
-                    <a href="#" class="btn btn-info">{% trans 'Learn More' %}</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="row mt-5 bg-light p-5 rounded">
-        <div class="col-lg-12 text-center">
-            <h2>{% trans 'Why Choose Super Insurance?' %}</h2>
-            <p class="lead">{% trans 'We are committed to providing the best service and value.' %}</p>
-        </div>
-        <div class="col-md-4 text-center">
-            <div class="p-4">
+        <div class="row mt-5 bg-light p-5 rounded">
+            <div class="col-lg-12 text-center">
+                <h2 class="fw-bold">{% trans 'Why Choose Super Insurance?' %}</h2>
+                <p class="lead text-muted">{% trans 'We are committed to providing the best service and value.' %}</p>
+            </div>
+            <div class="col-md-4 text-center p-4">
+                <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
                 <h4>{% trans 'Reliable Coverage' %}</h4>
                 <p>{% trans 'Our policies are designed to provide you with the best possible protection.' %}</p>
             </div>
-        </div>
-        <div class="col-md-4 text-center">
-            <div class="p-4">
+            <div class="col-md-4 text-center p-4">
+                <i class="fas fa-headset fa-3x text-primary mb-3"></i>
                 <h4>{% trans '24/7 Support' %}</h4>
                 <p>{% trans 'Our team is always here to help you with your questions and claims.' %}</p>
             </div>
-        </div>
-        <div class="col-md-4 text-center">
-            <div class="p-4">
+            <div class="col-md-4 text-center p-4">
+                <i class="fas fa-hand-holding-usd fa-3x text-primary mb-3"></i>
                 <h4>{% trans 'Affordable Prices' %}</h4>
                 <p>{% trans 'We offer competitive rates without compromising on coverage.' %}</p>
             </div>
         </div>
-    </div>
 
-    <div class="row mt-5">
-        <div class="col text-center">
-            <h2>{% trans 'Ready to Get Started?' %}</h2>
-            <p class="lead">{% trans 'Create an account or log in to manage your insurance needs.' %}</p>
-            <a href="{% url 'users:signup' %}" class="btn btn-success btn-lg">{% trans 'Sign Up Now' %}</a>
-            <a href="{% url 'users:login' %}" class="btn btn-outline-primary btn-lg">{% trans 'Log In' %}</a>
+        <div class="row mt-5">
+            <div class="col text-center">
+                <h2 class="fw-bold">{% trans 'Ready to Get Started?' %}</h2>
+                <p class="lead text-muted">{% trans 'Create an account or log in to manage your insurance needs.' %}</p>
+                <a href="{% url 'users:signup' %}" class="btn btn-primary btn-lg">{% trans 'Sign Up Now' %}</a>
+                <a href="{% url 'users:login' %}" class="btn btn-outline-secondary btn-lg">{% trans 'Log In' %}</a>
+            </div>
         </div>
-    </div>
+    {% endif %}
 </div>
-{% endif %}
 {% endblock %}

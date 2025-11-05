@@ -3,55 +3,23 @@
 
 {% block title %}{% trans 'Client Home - Super Insurance' %}{% endblock %}
 
-{% block style %}
-<style>
-  .dashboard-card {
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-    padding: 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .dashboard-card:hover {
-    transform: translateY(-5px);
-  }
-  .dashboard-card i {
-    font-size: 3rem;
-    color: #003366;
-    margin-bottom: 15px;
-  }
-  .dashboard-card h5 {
-    color: #003366;
-    font-weight: bold;
-  }
-  .dashboard-card p {
-    color: #6c757d;
-  }
-  .dashboard-card a {
-    text-decoration: none;
-    color: inherit;
-  }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center mb-5">{% trans 'Client Dashboard' %}</h1>
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="mb-3">{% trans 'Client Dashboard' %}</h1>
+        <p class="lead text-muted">{% trans 'Welcome back, ' %}{{ user.username }}!</p>
+    </div>
 
-    <div class="row">
-        <div class="col-md-6 mb-4">
-            <a href="{% url 'client:create_solicitation' %}" class="dashboard-card">
+    <div class="row justify-content-center">
+        <div class="col-md-5 mb-4">
+            <a href="{% url 'client:create_solicitation' %}" class="dashboard-card h-100">
                 <i class="fas fa-file-alt"></i>
                 <h5>{% trans 'Make a Solicitation' %}</h5>
                 <p>{% trans 'File a new claim for your policy.' %}</p>
             </a>
         </div>
-        <div class="col-md-6 mb-4">
-            <a href="{% url 'client:solicitations' %}" class="dashboard-card">
+        <div class="col-md-5 mb-4">
+            <a href="{% url 'client:solicitations' %}" class="dashboard-card h-100">
                 <i class="fas fa-list"></i>
                 <h5>{% trans 'View Your Solicitations' %}</h5>
                 <p>{% trans 'You have' %} {{ total_solicitations }} {% trans 'solicitations.' %}</p>

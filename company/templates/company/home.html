@@ -3,85 +3,57 @@
 
 {% block title %}{% trans 'Company Home - Super Insurance' %}{% endblock %}
 
-{% block style %}
-<style>
-  .dashboard-card {
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-    padding: 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .dashboard-card:hover {
-    transform: translateY(-5px);
-  }
-  .dashboard-card i {
-    font-size: 3rem;
-    color: #003366;
-    margin-bottom: 15px;
-  }
-  .dashboard-card h5 {
-    color: #003366;
-    font-weight: bold;
-  }
-  .dashboard-card p {
-    color: #6c757d;
-  }
-  .dashboard-card a {
-    text-decoration: none;
-    color: inherit;
-  }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center mb-5">{% trans 'Company Dashboard' %}</h1>
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="mb-3">{% trans 'Company Dashboard' %}</h1>
+        <p class="lead text-muted">{% trans 'Welcome back, ' %}{{ user.username }}!</p>
+    </div>
 
-    <h2 class="mb-4">{% trans 'View' %}</h2>
-    <div class="row">
-        <div class="col-md-6 col-lg-4 mb-4">
-            <a href="{% url 'company:solicitations' %}" class="dashboard-card">
-                <i class="fas fa-file-alt"></i>
-                <h5>{% trans 'View Solicitations' %}</h5>
-                <p>{% trans 'Review and manage user claims.' %}</p>
-            </a>
-        </div>
-        <div class="col-md-6 col-lg-4 mb-4">
-            <a href="{% url 'company:policies' %}" class="dashboard-card">
-                <i class="fas fa-list"></i>
-                <h5>{% trans 'View Policies' %}</h5>
-                <p>{% trans 'Browse and manage all policies.' %}</p>
-            </a>
-        </div>
-        <div class="col-md-6 col-lg-4 mb-4">
-            <a href="{% url 'company:user_list' %}" class="dashboard-card">
-                <i class="fas fa-users"></i>
-                <h5>{% trans 'View Users' %}</h5>
-                <p>{% trans 'View all non-admin users and their policies.' %}</p>
-            </a>
+    <div class="mb-5">
+        <h2 class="mb-4">{% trans 'Management' %}</h2>
+        <div class="row">
+            <div class="col-md-6 col-lg-4 mb-4">
+                <a href="{% url 'company:solicitations' %}" class="dashboard-card h-100">
+                    <i class="fas fa-file-alt"></i>
+                    <h5>{% trans 'View Solicitations' %}</h5>
+                    <p>{% trans 'Review and manage user claims.' %}</p>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <a href="{% url 'company:policies' %}" class="dashboard-card h-100">
+                    <i class="fas fa-list"></i>
+                    <h5>{% trans 'View Policies' %}</h5>
+                    <p>{% trans 'Browse and manage all policies.' %}</p>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <a href="{% url 'company:user_list' %}" class="dashboard-card h-100">
+                    <i class="fas fa-users"></i>
+                    <h5>{% trans 'View Users' %}</h5>
+                    <p>{% trans 'View all non-admin users and their policies.' %}</p>
+                </a>
+            </div>
         </div>
     </div>
 
-    <h2 class="mb-4 mt-5">{% trans 'Create' %}</h2>
-    <div class="row">
-        <div class="col-md-6 col-lg-4 mb-4">
-            <a href="{% url 'company:create_user_with_policy' %}" class="dashboard-card">
-                <i class="fas fa-user-plus"></i>
-                <h5>{% trans 'Create User & Policy' %}</h5>
-                <p>{% trans 'Onboard new users with a policy.' %}</p>
-            </a>
-        </div>
-        <div class="col-md-6 col-lg-4 mb-4">
-            <a href="{% url 'company:create_policy' %}" class="dashboard-card">
-                <i class="fas fa-plus-circle"></i>
-                <h5>{% trans 'Create New Policy' %}</h5>
-                <p>{% trans 'Design and add new insurance policies.' %}</p>
-            </a>
+    <div>
+        <h2 class="mb-4">{% trans 'Creation' %}</h2>
+        <div class="row">
+            <div class="col-md-6 col-lg-4 mb-4">
+                <a href="{% url 'company:create_user_with_policy' %}" class="dashboard-card h-100">
+                    <i class="fas fa-user-plus"></i>
+                    <h5>{% trans 'Create User & Policy' %}</h5>
+                    <p>{% trans 'Onboard new users with a policy.' %}</p>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <a href="{% url 'company:create_policy' %}" class="dashboard-card h-100">
+                    <i class="fas fa-plus-circle"></i>
+                    <h5>{% trans 'Create New Policy' %}</h5>
+                    <p>{% trans 'Design and add new insurance policies.' %}</p>
+                </a>
+            </div>
         </div>
     </div>
 </div>
