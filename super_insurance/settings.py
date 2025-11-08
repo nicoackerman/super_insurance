@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'client',
     'users',
     'company',
-    'super_insurance'
 ]
 
 MIDDLEWARE = [

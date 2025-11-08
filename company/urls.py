@@ -7,6 +7,7 @@ urlpatterns = [
     path('home/', views.home, name="home"),
     path('solicitations/', views.solicitations, name="solicitations"),
     path('solicitations/<int:solicitation_id>/', views.solicitation_details, name="solicitation_details"),
+    path('solicitations/<int:solicitation_id>/change-status/', views.change_solicitation_status, name="change_solicitation_status"),
     path('create-user-with-policy/', views.create_user_with_policy, name="create_user_with_policy"),
     path('create-policy/', views.create_policy, name="create_policy"),
     path('policies/', views.policies, name="policies"),

@@ -1,12 +1,35 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from client.models import UserSolicitation, UserPolicy, Policy
+from django.contrib import messages
 
 from .forms import UserPolicyForm, PolicyForm, AddPolicyToUserForm, UserPolicyDatesForm
 from django.contrib.auth.models import User
 
 def is_admin(user):
     return user.is_superuser
+
+@login_required
+@user_passes_test(is_admin)
+def change_solicitation_status(request, solicitation_id):
+    solicitation = get_object_or_404(UserSolicitation, id=solicitation_id)
+
+    if solicitation.status == 'Approved' or solicitation.status == 'Rejected':
+        messages.error(request, "Cannot change status of an approved or rejected solicitation.")
+        return redirect('company:solicitations')
+
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        if new_status and new_status in [s[0] for s in UserSolicitation.STATUS_CHOICES]:
+            solicitation.status = new_status
+            solicitation.save()
+            messages.success(request, f"Solicitation {solicitation.title} status changed to {new_status}.")
+            return redirect('company:solicitations')
+        else:
+            messages.error(request, "Invalid status provided.")
+            return redirect('company:solicitations')
+    
+    return render(request, 'company/change_solicitation_status.html', {'solicitation': solicitation, 'status_choices': UserSolicitation.STATUS_CHOICES})
 
 @login_required
 @user_passes_test(is_admin)
@@ -51,10 +74,7 @@ def solicitations(request):
 
     if query:
         solicitations_list = solicitations_list.filter(
-            Q(title__icontains=query) |
-            Q(description__icontains=query) |
-            Q(user_id__username__icontains=query) |
-            Q(policy_id__name__icontains=query)
+            Q(user_id__username__icontains=query)
         )
 
     paginator = Paginator(solicitations_list, 10)  # Show 10 solicitations per page
@@ -75,6 +95,7 @@ def solicitations(request):
         'query': query,
         'status': status,
     })
+
 from django.contrib import messages
 
 @login_required
