@@ -1,22 +1,26 @@
-{% extends 'index.html' %}
+{% extends 'company/base.html' %}
 {% load i18n %}
 
 {% block title %}{% trans 'Create Policy - Super Insurance' %}{% endblock %}
 
-{% block content %}
-<div class="container py-5">
-  <div class="form-container">
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'company:policies' %}">{% trans 'Policies' %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans 'Create New Policy' %}</li>
+{% endblock %}
+
+{% block company_content %}
+<div class="form-container">
     <div class="text-center mb-4">
         <h2 class="mb-2">{% trans 'Create New Policy' %}</h2>
         <p class="text-muted">{% trans 'Fill in the details below to create a new insurance policy.' %}</p>
     </div>
     <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <div class="d-grid mt-4">
-        <button type="submit" class="btn btn-primary btn-lg">{% trans 'Create Policy' %}</button>
-      </div>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+            <a href="javascript:history.back()" class="btn btn-secondary">{% trans 'Back' %}</a>
+            <button type="submit" class="btn btn-primary">{% trans 'Create Policy' %}</button>
+        </div>
     </form>
-  </div>
 </div>
 {% endblock %}

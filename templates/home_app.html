@@ -12,32 +12,7 @@
 </div>
 
 <div class="container py-5">
-    {% if user.is_authenticated %}
-        <div class="row justify-content-center">
-            {% if not user.is_superuser %}
-            <div class="col-lg-6">
-                <div class="card text-center">
-                    <div class="card-body p-5">
-                        <h5 class="card-title">{% trans 'Client Area' %}</h5>
-                        <p class="card-text">{% trans 'Manage your insurance policies, view your profile, and get in touch with us.' %}</p>
-                        <a href="{% url 'client:home' %}" class="btn btn-primary btn-lg">{% trans 'Go to Client Area' %}</a>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            {% if user.is_superuser %}
-            <div class="col-lg-6">
-                <div class="card text-center">
-                    <div class="card-body p-5">
-                        <h5 class="card-title">{% trans 'Company Panel' %}</h5>
-                        <p class="card-text">{% trans 'Access the company panel to manage user solicitations and create new users.' %}</p>
-                        <a href="{% url 'company:home' %}" class="btn btn-primary btn-lg">{% trans 'Go to Company Panel' %}</a>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-    {% else %}
+    {% if not user.is_authenticated %}
         <div class="text-center mb-5">
             <h2 class="fw-bold">{% trans 'Our Insurance Plans' %}</h2>
             <p class="lead text-muted">{% trans 'Find the perfect plan to fit your needs.' %}</p>

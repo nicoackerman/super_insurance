@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load static %}
+{% load common_tags %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -20,13 +21,7 @@
   <body>
     <nav class="navbar navbar-expand-lg">
       <div class="container">
-        {% if request.resolver_match.namespace == 'company' %}
-            <a class="navbar-brand" href="{% url 'company:home' %}">{% trans 'Super Insurance' %}</a>
-        {% elif request.resolver_match.namespace == 'client' %}
-            <a class="navbar-brand" href="{% url 'client:home' %}">{% trans 'Super Insurance' %}</a>
-        {% else %}
-            <a class="navbar-brand" href="{% url 'home' %}">{% trans 'Super Insurance' %}</a>
-        {% endif %}
+        <a class="navbar-brand" href="{% get_home_url %}">{% trans 'Super Insurance' %}</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -62,23 +57,10 @@
                     {% endfor %}
                 </ul>
             </li>
-            {% block nav_items %}
-              {% if request.resolver_match.url_name != 'home' %}
-                {% if request.resolver_match.namespace == 'company' %}
-                  <li class="nav-item">
-                      <a class="nav-link" href="{% url 'company:home' %}">{% trans 'Home' %}</a>
-                  </li>
-                {% elif request.resolver_match.namespace == 'client' %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'client:home' %}">{% trans 'Home' %}</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a>
-                    </li>
-                {% endif %}
-              {% endif %}
-            {% endblock nav_items %} {% if user.is_authenticated %}
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% get_home_url %}">{% trans 'Home' %}</a>
+            </li>
             <li class="nav-item">
               <form action="{% url 'users:logout' %}" method="post" class="d-flex">
                 {% csrf_token %}
@@ -111,4 +93,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
-

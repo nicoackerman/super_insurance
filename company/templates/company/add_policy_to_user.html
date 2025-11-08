@@ -1,23 +1,29 @@
-{% extends 'index.html' %}
+{% extends 'company/base.html' %}
 {% load i18n %}
 
 {% block title %}{% trans 'Add Policy to' %} {{ user.username }}{% endblock %}
 
-{% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">{% trans 'Add Policy to' %} {{ user.username }}</h3>
-                </div>
-                <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'company:user_list' %}">{% trans 'User List' %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans 'Add Policy to' %} {{ user.username }}</li>
+{% endblock %}
+
+{% block company_content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{% trans 'Add Policy to' %} {{ user.username }}</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a href="javascript:history.back()" class="btn btn-secondary">{% trans 'Back' %}</a>
                         <button type="submit" class="btn btn-primary">{% trans 'Add Policy' %}</button>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -1,15 +1,21 @@
-{% extends 'index.html' %}
+{% extends 'company/base.html' %}
 {% load i18n %}
 
 {% block title %}{% trans 'Edit Policy - Super Insurance' %}{% endblock %}
 
-{% block content %}
-<div class="container mt-5">
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'company:policies' %}">{% trans 'Policies' %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans 'Edit Policy' %}</li>
+{% endblock %}
+
+{% block company_content %}
     <h1 class="mb-4">{% trans 'Edit Policy' %}</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">{% trans 'Save Changes' %}</button>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+            <a href="javascript:history.back()" class="btn btn-secondary">{% trans 'Back' %}</a>
+            <button type="submit" class="btn btn-primary">{% trans 'Save Changes' %}</button>
+        </div>
     </form>
-</div>
 {% endblock %}

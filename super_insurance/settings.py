@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'client',
     'users',
-    'company'
+    'company',
+    'super_insurance'
 ]
 
 MIDDLEWARE = [

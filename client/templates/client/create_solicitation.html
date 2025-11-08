@@ -1,103 +1,106 @@
-{% extends 'index.html' %}
+{% extends 'client/base.html' %}
 {% load i18n %}
 
 {% block title %}{% trans 'File a Claim - Super Insurance' %}{% endblock %}
 
-{% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h2 class="mb-0">{% trans 'File a New Claim' %}</h2>
-                </div>
-                <div class="card-body p-4">
-                    <p class="text-muted text-center mb-4">{% trans 'Please fill out the form below to submit your claim.' %}</p>
+{% block breadcrumb %}
+    <li class="breadcrumb-item active" aria-current="page">{% trans 'File a New Claim' %}</li>
+{% endblock %}
+
+{% block client_content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2 class="mb-0">{% trans 'File a New Claim' %}</h2>
+            </div>
+            <div class="card-body p-4">
+                <p class="text-muted text-center mb-4">{% trans 'Please fill out the form below to submit your claim.' %}</p>
+                
+                <form method="post" novalidate>
+                    {% csrf_token %}
                     
-                    <form method="post" novalidate>
-                        {% csrf_token %}
-                        
-                        <div class="mb-3">
-                            <label for="{{ form.title.id_for_label }}" class="form-label">{% trans form.title.label %}</label>
-                            {{ form.title }}
-                            {% for error in form.title.errors %}
+                    <div class="mb-3">
+                        <label for="{{ form.title.id_for_label }}" class="form-label">{% trans form.title.label %}</label>
+                        {{ form.title }}
+                        {% for error in form.title.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.description.id_for_label }}" class="form-label">{% trans form.description.label %}</label>
+                        {{ form.description }}
+                        {% for error in form.description.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.policy_id.id_for_label }}" class="form-label">{% trans form.policy_id.label %}</label>
+                        {{ form.policy_id }}
+                        {% for error in form.policy_id.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.occurred_at.id_for_label }}" class="form-label">{% trans form.occurred_at.label %}</label>
+                            {{ form.occurred_at }}
+                            {% for error in form.occurred_at.errors %}
                                 <div class="invalid-feedback d-block">{{ error }}</div>
                             {% endfor %}
                         </div>
-
-                        <div class="mb-3">
-                            <label for="{{ form.description.id_for_label }}" class="form-label">{% trans form.description.label %}</label>
-                            {{ form.description }}
-                            {% for error in form.description.errors %}
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.estimated_loss.id_for_label }}" class="form-label">{% trans form.estimated_loss.label %}</label>
+                            {{ form.estimated_loss }}
+                            {% for error in form.estimated_loss.errors %}
                                 <div class="invalid-feedback d-block">{{ error }}</div>
                             {% endfor %}
                         </div>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="{{ form.policy_id.id_for_label }}" class="form-label">{% trans form.policy_id.label %}</label>
-                            {{ form.policy_id }}
-                            {% for error in form.policy_id.errors %}
+                    <div class="mb-3">
+                        <label for="{{ form.evidence_url.id_for_label }}" class="form-label">{% trans form.evidence_url.label %}</label>
+                        {{ form.evidence_url }}
+                        {% if form.evidence_url.help_text %}
+                            <small class="form-text text-muted">{% trans form.evidence_url.help_text %}</small>
+                        {% endif %}
+                        {% for error in form.evidence_url.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.claim_location.id_for_label }}" class="form-label">{% trans form.claim_location.label %}</label>
+                            {{ form.claim_location }}
+                            {% for error in form.claim_location.errors %}
                                 <div class="invalid-feedback d-block">{{ error }}</div>
                             {% endfor %}
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.occurred_at.id_for_label }}" class="form-label">{% trans form.occurred_at.label %}</label>
-                                {{ form.occurred_at }}
-                                {% for error in form.occurred_at.errors %}
-                                    <div class="invalid-feedback d-block">{{ error }}</div>
-                                {% endfor %}
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.estimated_loss.id_for_label }}" class="form-label">{% trans form.estimated_loss.label %}</label>
-                                {{ form.estimated_loss }}
-                                {% for error in form.estimated_loss.errors %}
-                                    <div class="invalid-feedback d-block">{{ error }}</div>
-                                {% endfor %}
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="{{ form.evidence_url.id_for_label }}" class="form-label">{% trans form.evidence_url.label %}</label>
-                            {{ form.evidence_url }}
-                            {% if form.evidence_url.help_text %}
-                                <small class="form-text text-muted">{% trans form.evidence_url.help_text %}</small>
-                            {% endif %}
-                            {% for error in form.evidence_url.errors %}
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.witnesses.id_for_label }}" class="form-label">{% trans form.witnesses.label %}</label>
+                            {{ form.witnesses }}
+                            {% for error in form.witnesses.errors %}
                                 <div class="invalid-feedback d-block">{{ error }}</div>
                             {% endfor %}
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="{{ form.claim_location.id_for_label }}" class="form-label">{% trans form.claim_location.label %}</label>
-                                {{ form.claim_location }}
-                                {% for error in form.claim_location.errors %}
-                                    <div class="invalid-feedback d-block">{{ error }}</div>
-                                {% endfor %}
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="{{ form.witnesses.id_for_label }}" class="form-label">{% trans form.witnesses.label %}</label>
-                                {{ form.witnesses }}
-                                {% for error in form.witnesses.errors %}
-                                    <div class="invalid-feedback d-block">{{ error }}</div>
-                                {% endfor %}
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="{{ form.police_report_number.id_for_label }}" class="form-label">{% trans form.police_report_number.label %}</label>
-                                {{ form.police_report_number }}
-                                {% for error in form.police_report_number.errors %}
-                                    <div class="invalid-feedback d-block">{{ error }}</div>
-                                {% endfor %}
-                            </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.police_report_number.id_for_label }}" class="form-label">{% trans form.police_report_number.label %}</label>
+                            {{ form.police_report_number }}
+                            {% for error in form.police_report_number.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
                         </div>
+                    </div>
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg mt-3">{% trans 'Submit Claim' %}</button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="javascript:history.back()" class="btn btn-secondary">{% trans 'Back' %}</a>
+                        <button type="submit" class="btn btn-primary">{% trans 'Submit Claim' %}</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

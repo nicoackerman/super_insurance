@@ -204,22 +204,14 @@ def add_policy_to_user(request, user_id):
 @user_passes_test(is_admin)
 def edit_user_policy(request, user_policy_id):
     user_policy = UserPolicy.objects.get(id=user_policy_id)
-    policy = user_policy.policy_id # Get the related Policy object
-
     if request.method == 'POST':
         form = UserPolicyDatesForm(request.POST, instance=user_policy)
         if form.is_valid():
             form.save()
-            # Handle form submission to update policy details
-            # For now, let's just toggle is_active
-            policy.is_active = not policy.is_active
-            policy.save()
             return redirect('company:user_list')
     else:
         form = UserPolicyDatesForm(instance=user_policy)
-        # Render a form to edit the policy
-        # For simplicity, we'll just display current status and a toggle button
-    return render(request, 'company/edit_user_policy.html', {'user_policy': user_policy, 'policy': policy, 'form': form})
+    return render(request, 'company/edit_user_policy.html', {'user_policy': user_policy, 'form': form})
 
 @login_required
 @user_passes_test(is_admin)

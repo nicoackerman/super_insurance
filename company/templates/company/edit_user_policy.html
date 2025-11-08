@@ -1,31 +1,21 @@
-{% extends 'index.html' %}
+{% extends 'company/base.html' %}
 {% load i18n %}
 
 {% block title %}{% trans 'Edit User Policy - Super Insurance' %}{% endblock %}
 
-{% block content %}
-<div class="container py-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">{% trans 'Edit Policy for' %} {{ user_policy.user_id.username }}</h3>
-                </div>
-                <div class="card-body">
-                    <p><strong>{% trans 'Policy Name' %}:</strong> {{ policy.name }}</p>
-                    <p><strong>{% trans 'Policy Number' %}:</strong> {{ policy.policy_number }}</p>
-                    <p><strong>{% trans 'Current Status' %}:</strong> {% if policy.is_active %}{% trans 'Active' %}{% else %}{% trans 'Inactive' %}{% endif %}</p>
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-lg" style="background-color: {% if policy.is_active %}var(--warning){% else %}var(--success){% endif %}; color: var(--surface); border-color: {% if policy.is_active %}var(--warning){% else %}var(--success){% endif %};">
-                            {% if policy.is_active %}{% trans 'Deactivate' %}{% else %}{% trans 'Activate' %}{% endif %} {% trans 'Policy' %}
-                        </button>
-                        <a href="{% url 'company:user_list' %}" class="btn btn-secondary btn-lg">{% trans 'Cancel' %}</a>
-                    </form>
-                </div>
-            </div>
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'company:user_list' %}">{% trans 'User List' %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans 'Edit User Policy' %}</li>
+{% endblock %}
+
+{% block company_content %}
+    <h1 class="mb-4">{% trans 'Edit User Policy' %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+            <a href="javascript:history.back()" class="btn btn-secondary">{% trans 'Back' %}</a>
+            <button type="submit" class="btn btn-primary">{% trans 'Save Changes' %}</button>
         </div>
-    </div>
-</div>
+    </form>
 {% endblock %}

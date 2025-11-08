@@ -1,28 +1,31 @@
-{% extends 'index.html' %}
+{% extends 'company/base.html' %}
 {% load humanize %}
 {% load i18n %}
 
 {% block title %}{% trans 'Policy Details - Super Insurance' %}{% endblock %}
 
-{% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">{% trans 'Policy Details:' %} {{ policy.name }}</h3>
-                </div>
-                <div class="card-body">
-                    <p><strong>{% trans 'Policy Number:' %}</strong> {{ policy.policy_number }}</p>
-                    <p><strong>{% trans 'Policy Type:' %}</strong> {{ policy.get_policy_type_display }}</p>
-                    <p><strong>{% trans 'Description:' %}</strong> {{ policy.description }}</p>
-                    <p><strong>{% trans 'Coverage Amount:' %}</strong> ${{ policy.coverage_amount|intcomma }}</p>
-                    <p><strong>{% trans 'Premium Amount:' %}</strong> ${{ policy.premium_amount|intcomma }}</p>
-                    <p><strong>{% trans 'Monthly Payment:' %}</strong> ${{ policy.monthly_payment|intcomma }}</p>
-                    <p><strong>{% trans 'Active:' %}</strong> {{ policy.is_active|yesno:"Yes,No" }}</p>
-                    <p><strong>{% trans 'Created At:' %}</strong> {{ policy.created_at }}</p>
-                    <a href="{% url 'company:user_list' %}" class="btn btn-secondary">{% trans 'Back to User List' %}</a>
-                </div>
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'company:policies' %}">{% trans 'Policies' %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans 'Policy Details' %}</li>
+{% endblock %}
+
+{% block company_content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{% trans 'Policy Details:' %} {{ policy.name }}</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>{% trans 'Policy Number:' %}</strong> {{ policy.policy_number }}</p>
+                <p><strong>{% trans 'Policy Type:' %}</strong> {{ policy.get_policy_type_display }}</p>
+                <p><strong>{% trans 'Description:' %}</strong> {{ policy.description }}</p>
+                <p><strong>{% trans 'Coverage Amount:' %}</strong> ${{ policy.coverage_amount|intcomma }}</p>
+                <p><strong>{% trans 'Premium Amount:' %}</strong> ${{ policy.premium_amount|intcomma }}</p>
+                <p><strong>{% trans 'Monthly Payment:' %}</strong> ${{ policy.monthly_payment|intcomma }}</p>
+                <p><strong>{% trans 'Active:' %}</strong> {{ policy.is_active|yesno:"Yes,No" }}</p>
+                <p><strong>{% trans 'Created At:' %}</strong> {{ policy.created_at }}</p>
+                <a href="javascript:history.back()" class="btn btn-secondary">{% trans 'Back' %}</a>
             </div>
         </div>
     </div>

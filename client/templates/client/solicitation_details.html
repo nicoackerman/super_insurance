@@ -1,36 +1,39 @@
-{% extends 'index.html' %}
+{% extends 'client/base.html' %}
 {% load humanize %}
 {% load i18n %}
 
 {% block title %}{% trans 'Solicitation Details - Super Insurance' %}{% endblock %}
 
-{% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">{% trans 'Solicitation Details' %}: {{ solicitation.title }}</h3>
-                </div>
-                <div class="card-body">
-                    <p><strong>{% trans 'Policy' %}:</strong> {{ solicitation.policy_id.name }}</p>
-                    <p><strong>{% trans 'Status' %}:</strong> {{ solicitation.status }}</p>
-                    <p><strong>{% trans 'Description' %}:</strong> {{ solicitation.description }}</p>
-                    <p><strong>{% trans 'Occurred At' %}:</strong> {{ solicitation.occurred_at|date:"Y-m-d H:i" }}</p>
-                    <p><strong>{% trans 'Estimated Loss' %}:</strong> 
-                        {% if solicitation.estimated_loss %}
-                            ${{ solicitation.estimated_loss|intcomma }}
-                        {% else %}
-                            N/A
-                        {% endif %}
-                    </p>
-                    {% if solicitation.evidence_url %}<p><strong>{% trans 'Evidence' %}:</strong> <a href="{{ solicitation.evidence_url }}" target="_blank">{{ solicitation.evidence_url }}</a></p>{% endif %}
-                    {% if solicitation.claim_location %}<p><strong>{% trans 'Claim Location' %}:</strong> {{ solicitation.claim_location }}</p>{% endif %}
-                    {% if solicitation.witnesses %}<p><strong>{% trans 'Witnesses' %}:</strong> {{ solicitation.witnesses }}</p>{% endif %}
-                    {% if solicitation.police_report_number %}<p><strong>{% trans 'Police Report Number' %}:</strong> {{ solicitation.police_report_number }}</p>{% endif %}
-                    <p><strong>{% trans 'Created At' %}:</strong> {{ solicitation.created_at|date:"Y-m-d H:i" }}</p>
-                    <a href="{% url 'client:solicitations' %}" class="btn btn-secondary">{% trans 'Back to My Solicitations' %}</a>
-                </div>
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'client:solicitations' %}">{% trans 'My Solicitations' %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans 'Solicitation Details' %}</li>
+{% endblock %}
+
+{% block client_content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{% trans 'Solicitation Details' %}: {{ solicitation.title }}</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>{% trans 'Policy' %}:</strong> {{ solicitation.policy_id.name }}</p>
+                <p><strong>{% trans 'Status' %}:</strong> {{ solicitation.status }}</p>
+                <p><strong>{% trans 'Description' %}:</strong> {{ solicitation.description }}</p>
+                <p><strong>{% trans 'Occurred At' %}:</strong> {{ solicitation.occurred_at|date:"Y-m-d H:i" }}</p>
+                <p><strong>{% trans 'Estimated Loss' %}:</strong> 
+                    {% if solicitation.estimated_loss %}
+                        ${{ solicitation.estimated_loss|intcomma }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+                {% if solicitation.evidence_url %}<p><strong>{% trans 'Evidence' %}:</strong> <a href="{{ solicitation.evidence_url }}" target="_blank">{{ solicitation.evidence_url }}</a></p>{% endif %}
+                {% if solicitation.claim_location %}<p><strong>{% trans 'Claim Location' %}:</strong> {{ solicitation.claim_location }}</p>{% endif %}
+                {% if solicitation.witnesses %}<p><strong>{% trans 'Witnesses' %}:</strong> {{ solicitation.witnesses }}</p>{% endif %}
+                {% if solicitation.police_report_number %}<p><strong>{% trans 'Police Report Number' %}:</strong> {{ solicitation.police_report_number }}</p>{% endif %}
+                <p><strong>{% trans 'Created At' %}:</strong> {{ solicitation.created_at|date:"Y-m-d H:i" }}</p>
+                <a href="javascript:history.back()" class="btn btn-secondary">{% trans 'Back' %}</a>
             </div>
         </div>
     </div>
