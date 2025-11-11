@@ -34,7 +34,7 @@
         {% for solicitation in solicitations %}
             <a href="{% url 'client:solicitation_details' solicitation.pk %}" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Reclamación #{{ solicitation.pk }}</h5>
+                    <h5 class="mb-1">Reclamación #{{ solicitation.pk }} - Póliza: {{ solicitation.policy.policy_number }}</h5>
                     <small>{{ solicitation.created_at|date:"d M Y" }}</small>
                 </div>
                 <p class="mb-1">{{ solicitation.incident_cause|truncatewords:20 }}</p>

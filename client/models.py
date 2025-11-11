@@ -6,14 +6,13 @@ from django.contrib.auth.models import User
 # ------------------------
 class Policy(models.Model):
     POLICY_TYPES = [
-        ('life', 'Seguro de Vida'),
-        ('health', 'Salud y Hospitalización'),
-        ('accident', 'Accidentes Personales'),
+        ('vehicle', 'Vehicle Insurance'),
+        ('property', 'Property Insurance'),
     ]
 
     name = models.CharField(max_length=100)
     policy_number = models.CharField(max_length=50, unique=True)
-    policy_type = models.CharField(max_length=20, choices=POLICY_TYPES, default='life')
+    policy_type = models.CharField(max_length=20, choices=POLICY_TYPES, default='vehicle')
     coverage_amount = models.DecimalField(max_digits=12, decimal_places=2)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -67,7 +66,7 @@ class UserSolicitation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='solicitations') # Reclamante
     policy = models.ForeignKey(Policy, on_delete=models.CASCADE, related_name='solicitations', null=True) # Poliza asociada
     diligenciamiento_city = models.CharField(max_length=50, verbose_name="Ciudad de Diligenciamiento", blank=True, default='-')
-    diligenciamiento_date = models.DateField(verbose_name="Fecha de Diligenciamiento")
+    document_link = models.URLField(max_length=500, blank=True, null=True, verbose_name="Enlace a Documentos (Drive, etc.)")
 
     # 3. Información del Reclamante (CAMPOS CORREGIDOS)
     claimant_cc = models.CharField(max_length=20, verbose_name="C.C.", blank=True, default='-')

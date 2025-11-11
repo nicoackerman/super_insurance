@@ -1,5 +1,6 @@
 from django import forms
 from .models import UserSolicitation, Policy
+from datetime import datetime
 
 class UserSolicitationForm(forms.ModelForm):
     policy = forms.ModelChoiceField(
@@ -17,7 +18,6 @@ class UserSolicitationForm(forms.ModelForm):
         fields = [
             'policy',
             'diligenciamiento_city',
-            'diligenciamiento_date',
             'claimant_cc',
             'claimant_address',
             'claimant_phone',
@@ -41,11 +41,11 @@ class UserSolicitationForm(forms.ModelForm):
             'hospital_exit_date',
             'temp_disability_start',
             'temp_disability_end',
+            'document_link',
             'declaration_accepted',
             'claimant_signature',
         ]
         widgets = {
-            'diligenciamiento_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'incident_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'incident_time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
             'last_work_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
@@ -70,5 +70,23 @@ class UserSolicitationForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             if field_name not in ['policy', 'diligenciamiento_city', 'declaration_accepted']:
                 field.widget.attrs.update({'class': 'form-control'})
+
+    def clean(self):
+        cleaned_data = super().clean()
+        today = datetime.now().date()
+
+        date_fields = [
+            'incident_date', 'last_work_date', 'disability_date',
+            'hospital_entry_date', 'hospital_exit_date',
+            'temp_disability_start', 'temp_disability_end'
+        ]
+
+        for field_name in date_fields:
+            date_value = cleaned_data.get(field_name)
+            if date_value and date_value > today:
+                self.add_error(field_name, "La fecha no puede ser en el futuro.")
+        
+        return cleaned_data
+
 
 

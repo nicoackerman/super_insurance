@@ -9,7 +9,7 @@
         <div class="col-lg-10">
             <div class="text-center mb-4">
                 <h1 class="display-6 fw-bold text-primary">Formulario de Reclamación por Siniestro</h1>
-                <p class="text-muted fst-italic">Vigilado Superintendencia Financiera de Colombia</p>
+                <p class="lead text-muted">Complete el siguiente formulario para iniciar su reclamación.</p>
             </div>
 
             {% if form.errors %}
@@ -29,33 +29,23 @@
                 {% csrf_token %}
 
                 <div class="card card-claim mb-4">
-                    <div class="card-header bg-primary text-white"><h2 class="h5 mb-0">1. Lugar y Fecha de Diligenciamiento</h2></div>
+                    <div class="card-header bg-primary text-white"><h2 class="h5 mb-0">1. Información General de la Reclamación</h2></div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-6 mb-3">
-                                <label for="{{ form.diligenciamiento_city.id_for_label }}" class="form-label fw-bold">Ciudad</label>
+                                <label for="{{ form.diligenciamiento_city.id_for_label }}" class="form-label fw-bold">Ciudad de Diligenciamiento</label>
                                 {{ form.diligenciamiento_city }}
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="{{ form.diligenciamiento_date.id_for_label }}" class="form-label fw-bold">Fecha</label>
-                                {{ form.diligenciamiento_date }}
+                                <label for="{{ form.policy.id_for_label }}" class="form-label fw-bold">Póliza a Reclamar</label>
+                                {{ form.policy }}
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="card card-claim mb-4">
-                    <div class="card-header bg-primary text-white"><h2 class="h5 mb-0">2. Póliza a Reclamar</h2></div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="{{ form.policy.id_for_label }}" class="form-label fw-bold">Seleccione la Póliza Afectada</label>
-                            {{ form.policy }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card card-claim mb-4">
-                    <div class="card-header bg-primary text-white"><h2 class="h5 mb-0">3. Información del Reclamante</h2></div>
+                    <div class="card-header bg-primary text-white"><h2 class="h5 mb-0">2. Información del Reclamante</h2></div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-6 mb-3"><label for="{{ form.claimant_cc.id_for_label }}" class="form-label">C.C.</label>{{ form.claimant_cc }}</div>
@@ -68,7 +58,7 @@
                 </div>
 
                 <div class="card card-claim mb-4">
-                    <div class="card-header bg-info text-dark"><h2 class="h5 mb-0">4. Información para el Pago</h2></div>
+                    <div class="card-header bg-info text-dark"><h2 class="h5 mb-0">3. Información para el Pago</h2></div>
                     <div class="card-body">
                         <label class="form-label fw-bold d-block mb-3">Medio de pago</label>
                         <div class="form-check form-check-inline">
@@ -93,7 +83,7 @@
                 </div>
 
                 <div class="card card-claim mb-4">
-                    <div class="card-header bg-primary text-white"><h2 class="h5 mb-0">5. Información sobre el Siniestro</h2></div>
+                    <div class="card-header bg-primary text-white"><h2 class="h5 mb-0">4. Información sobre el Siniestro</h2></div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-6 mb-3"><label for="{{ form.incident_location.id_for_label }}" class="form-label">Lugar</label>{{ form.incident_location }}</div>
@@ -102,12 +92,13 @@
                             <div class="col-md-6 mb-3"><label for="{{ form.incident_time.id_for_label }}" class="form-label">Hora</label>{{ form.incident_time }}</div>
                             <div class="col-12 mb-3"><label for="{{ form.incident_cause.id_for_label }}" class="form-label">Causa</label>{{ form.incident_cause }}</div>
                             <div class="col-12 mb-3"><label for="{{ form.incident_description.id_for_label }}" class="form-label">Descripción</label>{{ form.incident_description }}</div>
+                            <div class="col-12 mb-3"><label for="{{ form.document_link.id_for_label }}" class="form-label">Enlace a Documentos (Drive, etc.)</label>{{ form.document_link }}</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="card card-claim mb-4">
-                    <div class="card-header bg-danger text-white"><h2 class="h5 mb-0">6. Declaración y Autorizaciones</h2></div>
+                    <div class="card-header bg-danger text-white"><h2 class="h5 mb-0">5. Declaración y Autorizaciones</h2></div>
                     <div class="card-body">
                         <p class="small text-muted">Acepto que todas las declaraciones y documentos adjuntos son verídicos. Autorizo a cualquier proveedor de salud para suministrar la Historia Clínica completa del asegurado/reclamante.</p>
                         <div class="form-check mb-3">
