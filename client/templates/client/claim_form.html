@@ -1,0 +1,166 @@
+{% extends 'client/base.html' %}
+{% load i18n %}
+
+{% block title %}Formulario de Reclamación{% endblock %}
+
+{% block client_content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="text-center mb-4">
+                <h1 class="display-6 fw-bold text-primary">Formulario de Reclamación por Siniestro</h1>
+                <p class="text-muted fst-italic">Vigilado Superintendencia Financiera de Colombia</p>
+            </div>
+
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <strong>Por favor, corrija los siguientes errores:</strong>
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <form method="POST" class="needs-validation" novalidate>
+                {% csrf_token %}
+
+                <div class="card card-claim mb-4">
+                    <div class="card-header bg-primary text-white"><h2 class="h5 mb-0">1. Lugar y Fecha de Diligenciamiento</h2></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.diligenciamiento_city.id_for_label }}" class="form-label fw-bold">Ciudad</label>
+                                {{ form.diligenciamiento_city }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.diligenciamiento_date.id_for_label }}" class="form-label fw-bold">Fecha</label>
+                                {{ form.diligenciamiento_date }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-claim mb-4">
+                    <div class="card-header bg-primary text-white"><h2 class="h5 mb-0">2. Póliza a Reclamar</h2></div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="{{ form.policy.id_for_label }}" class="form-label fw-bold">Seleccione la Póliza Afectada</label>
+                            {{ form.policy }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-claim mb-4">
+                    <div class="card-header bg-primary text-white"><h2 class="h5 mb-0">3. Información del Reclamante</h2></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-3"><label for="{{ form.claimant_cc.id_for_label }}" class="form-label">C.C.</label>{{ form.claimant_cc }}</div>
+                            <div class="col-md-6 mb-3"><label for="{{ form.claimant_phone.id_for_label }}" class="form-label">Teléfono</label>{{ form.claimant_phone }}</div>
+                            <div class="col-md-6 mb-3"><label for="{{ form.claimant_celular.id_for_label }}" class="form-label">Celular</label>{{ form.claimant_celular }}</div>
+                            <div class="col-md-6 mb-3"><label for="{{ form.claimant_email.id_for_label }}" class="form-label">Email</label>{{ form.claimant_email }}</div>
+                            <div class="col-12 mb-3"><label for="{{ form.claimant_address.id_for_label }}" class="form-label">Dirección de Correspondencia</label>{{ form.claimant_address }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-claim mb-4">
+                    <div class="card-header bg-info text-dark"><h2 class="h5 mb-0">4. Información para el Pago</h2></div>
+                    <div class="card-body">
+                        <label class="form-label fw-bold d-block mb-3">Medio de pago</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="payment_method" id="paymentCheck" value="check" checked>
+                            <label class="form-check-label" for="paymentCheck">Cheque</label>
+                        </div>
+                        <div class="form-check form-check-inline mb-3">
+                            <input class="form-check-input" type="radio" name="payment_method" id="paymentTransfer" value="transfer">
+                            <label class="form-check-label" for="paymentTransfer">Transferencia Electrónica</label>
+                        </div>
+
+                        <div id="transferFields" class="p-3 border rounded" style="display: none;">
+                            <div class="mb-3"><label for="bank_name" class="form-label">Entidad Financiera</label><input type="text" class="form-control" id="bank_name" name="bank_name"></div>
+                            <div class="mb-3">
+                                <label class="form-label d-block">Tipo de Cuenta</label>
+                                <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="account_type" id="accountSavings" value="savings"><label class="form-check-label" for="accountSavings">Ahorros</label></div>
+                                <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="account_type" id="accountChecking" value="checking"><label class="form-check-label" for="accountChecking">Corriente</label></div>
+                            </div>
+                            <div class="mb-3"><label for="account_number" class="form-label">Número de Cuenta</label><input type="text" class="form-control" id="account_number" name="account_number"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-claim mb-4">
+                    <div class="card-header bg-primary text-white"><h2 class="h5 mb-0">5. Información sobre el Siniestro</h2></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-3"><label for="{{ form.incident_location.id_for_label }}" class="form-label">Lugar</label>{{ form.incident_location }}</div>
+                            <div class="col-md-6 mb-3"><label for="{{ form.occupation_at_incident.id_for_label }}" class="form-label">Ocupación en ese momento</label>{{ form.occupation_at_incident }}</div>
+                            <div class="col-md-6 mb-3"><label for="{{ form.incident_date.id_for_label }}" class="form-label">Fecha</label>{{ form.incident_date }}</div>
+                            <div class="col-md-6 mb-3"><label for="{{ form.incident_time.id_for_label }}" class="form-label">Hora</label>{{ form.incident_time }}</div>
+                            <div class="col-12 mb-3"><label for="{{ form.incident_cause.id_for_label }}" class="form-label">Causa</label>{{ form.incident_cause }}</div>
+                            <div class="col-12 mb-3"><label for="{{ form.incident_description.id_for_label }}" class="form-label">Descripción</label>{{ form.incident_description }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-claim mb-4">
+                    <div class="card-header bg-danger text-white"><h2 class="h5 mb-0">6. Declaración y Autorizaciones</h2></div>
+                    <div class="card-body">
+                        <p class="small text-muted">Acepto que todas las declaraciones y documentos adjuntos son verídicos. Autorizo a cualquier proveedor de salud para suministrar la Historia Clínica completa del asegurado/reclamante.</p>
+                        <div class="form-check mb-3">
+                            {{ form.declaration_accepted }}
+                            <label class="form-check-label small fw-bold" for="{{ form.declaration_accepted.id_for_label }}">Acepto la Declaración y Autorizaciones.</label>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <label for="{{ form.claimant_signature.id_for_label }}" class="form-label fw-bold">Firma del Reclamante (Escriba su nombre completo)</label>
+                            {{ form.claimant_signature }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center gap-3 pt-3">
+                    <button type="submit" name="save_draft" value="true" class="btn btn-outline-secondary btn-lg">Guardar Borrador</button>
+                    <button type="submit" class="btn btn-primary btn-lg">Enviar Reclamación</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const paymentRadios = document.querySelectorAll('input[name="payment_method"]');
+        const transferFields = document.getElementById('transferFields');
+
+        function togglePaymentFields() {
+            const method = document.querySelector('input[name="payment_method"]:checked')?.value;
+            transferFields.style.display = method === 'transfer' ? 'block' : 'none';
+            transferFields.querySelectorAll('input, select').forEach(input => {
+                input.required = method === 'transfer';
+            });
+        }
+
+        paymentRadios.forEach(radio => radio.addEventListener('change', togglePaymentFields));
+        togglePaymentFields(); // Run on page load
+
+        // Bootstrap validation
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    });
+</script>
+{% endblock %}

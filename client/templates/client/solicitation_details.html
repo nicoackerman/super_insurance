@@ -1,41 +1,82 @@
 {% extends 'client/base.html' %}
-{% load humanize %}
 {% load i18n %}
 
-{% block title %}{% trans 'Solicitation Details - Super Insurance' %}{% endblock %}
-
-{% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="{% url 'client:solicitations' %}">{% trans 'My Solicitations' %}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{% trans 'Solicitation Details' %}</li>
-{% endblock %}
+{% block title %}{% trans 'Solicitation Details' %}{% endblock %}
 
 {% block client_content %}
-<div class="row">
-    <div class="col-md-8 offset-md-2">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">{% trans 'Solicitation Details' %}: {{ solicitation.title }}</h3>
-            </div>
-            <div class="card-body">
-                <p><strong>{% trans 'Policy' %}:</strong> {{ solicitation.policy_id.name }}</p>
-                <p><strong>{% trans 'Status' %}:</strong> {{ solicitation.status }}</p>
-                <p><strong>{% trans 'Description' %}:</strong> {{ solicitation.description }}</p>
-                <p><strong>{% trans 'Occurred At' %}:</strong> {{ solicitation.occurred_at|date:"Y-m-d H:i" }}</p>
-                <p><strong>{% trans 'Estimated Loss' %}:</strong> 
-                    {% if solicitation.estimated_loss %}
-                        ${{ solicitation.estimated_loss|intcomma }}
-                    {% else %}
-                        N/A
-                    {% endif %}
-                </p>
-                {% if solicitation.evidence_url %}<p><strong>{% trans 'Evidence' %}:</strong> <a href="{{ solicitation.evidence_url }}" target="_blank">{{ solicitation.evidence_url }}</a></p>{% endif %}
-                {% if solicitation.claim_location %}<p><strong>{% trans 'Claim Location' %}:</strong> {{ solicitation.claim_location }}</p>{% endif %}
-                {% if solicitation.witnesses %}<p><strong>{% trans 'Witnesses' %}:</strong> {{ solicitation.witnesses }}</p>{% endif %}
-                {% if solicitation.police_report_number %}<p><strong>{% trans 'Police Report Number' %}:</strong> {{ solicitation.police_report_number }}</p>{% endif %}
-                <p><strong>{% trans 'Created At' %}:</strong> {{ solicitation.created_at|date:"Y-m-d H:i" }}</p>
-                <a href="javascript:history.back()" class="btn btn-secondary">{% trans 'Back' %}</a>
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>{% trans 'Solicitation Details' %} #{{ solicitation.pk }}</h1>
+        <span class="badge bg-primary fs-6">{{ solicitation.get_status_display }}</span>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">{% trans 'General Information' %}</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>{% trans 'Creation Date' %}:</strong> {{ solicitation.created_at|date:"d M Y, H:i" }}</p>
+                    <p><strong>{% trans 'Diligenciamiento City' %}:</strong> {{ solicitation.diligenciamiento_city }}</p>
+                    <p><strong>{% trans 'Diligenciamiento Date' %}:</strong> {{ solicitation.diligenciamiento_date|date:"d M Y" }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>{% trans 'Claimant' %}:</strong> {{ solicitation.user.get_full_name }}</p>
+                    <p><strong>{% trans 'Claimant CC' %}:</strong> {{ solicitation.claimant_cc }}</p>
+                    <p><strong>{% trans 'Claimant Email' %}:</strong> {{ solicitation.claimant_email }}</p>
+                </div>
             </div>
         </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5 class="mb-0">{% trans 'Incident Information' %}</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>{% trans 'Location' %}:</strong> {{ solicitation.incident_location }}</p>
+            <p><strong>{% trans 'Date' %}:</strong> {{ solicitation.incident_date|date:"d M Y" }}</p>
+            <p><strong>{% trans 'Time' %}:</strong> {{ solicitation.incident_time|time:"H:i" }}</p>
+            <p><strong>{% trans 'Cause' %}:</strong></p>
+            <p>{{ solicitation.incident_cause }}</p>
+            <p><strong>{% trans 'Description' %}:</strong></p>
+            <p>{{ solicitation.incident_description }}</p>
+        </div>
+    </div>
+
+    {% if solicitation.insured_details %}
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5 class="mb-0">{% trans 'Insured Details (Not Claimant)' %}</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>{% trans 'Name' %}:</strong> {{ solicitation.insured_details.insured_name }}</p>
+            <p><strong>{% trans 'ID Number' %}:</strong> {{ solicitation.insured_details.insured_id_number }}</p>
+            <p><strong>{% trans 'Relationship' %}:</strong> {{ solicitation.insured_details.relationship_to_claimant }}</p>
+            <p><strong>{% trans 'Policy Numbers' %}:</strong> {{ solicitation.insured_details.policy_numbers }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if solicitation.payment_details %}
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5 class="mb-0">{% trans 'Payment Details' %}</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>{% trans 'Method' %}:</strong> {{ solicitation.payment_details.get_payment_method_display }}</p>
+            {% if solicitation.payment_details.payment_method == 'transfer' %}
+                <p><strong>{% trans 'Bank' %}:</strong> {{ solicitation.payment_details.bank_name }}</p>
+                <p><strong>{% trans 'Account Type' %}:</strong> {{ solicitation.payment_details.get_account_type_display }}</p>
+                <p><strong>{% trans 'Account Number' %}:</strong> {{ solicitation.payment_details.account_number }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="{% url 'client:solicitations' %}" class="btn btn-secondary">{% trans 'Back to Solicitations' %}</a>
     </div>
 </div>
 {% endblock %}

@@ -1,100 +1,68 @@
 {% extends 'client/base.html' %}
-{% load humanize %}
 {% load i18n %}
 
-{% block title %}{% trans 'My Solicitations - Super Insurance' %}{% endblock %}
-
-{% block breadcrumb %}
-    <li class="breadcrumb-item active" aria-current="page">{% trans 'My Solicitations' %}</li>
-{% endblock %}
+{% block title %}{% trans 'My Solicitations' %}{% endblock %}
 
 {% block client_content %}
+<div class="container py-5">
     <h1 class="mb-4">{% trans 'My Solicitations' %}</h1>
 
-    <div class="mb-3">
-        <form method="get" class="row g-3 align-items-center">
-            <div class="col-md-4">
-                <label for="searchQuery" class="visually-hidden">{% trans 'Search' %}</label>
-                <input type="text" class="form-control" id="searchQuery" name="q" placeholder="{% trans 'Search by title, policy...' %}" value="{{ request.GET.q }}">
-            </div>
-            <div class="col-md-4">
-                <label for="statusFilter" class="visually-hidden">{% trans 'Status' %}</label>
-                <select name="status" id="statusFilter" class="form-select">
-                    <option value="">{% trans 'All Statuses' %}</option>
-                    {% for status_code, status_name in status_choices %}
-                        <option value="{{ status_code }}" {% if status_code == request.GET.status %}selected{% endif %}>{{ status_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100">{% trans 'Filter' %}</button>
-            </div>
-            <div class="col-md-2">
-                <a href="{% url 'client:solicitations' %}" class="btn btn-secondary w-100">{% trans 'Reset' %}</a>
-            </div>
-        </form>
-    </div>
-
-    <div class="card p-3">
-        <div class="table-responsive">
-            <table class="table table-striped mb-0">
-                <thead>
-                    <tr>
-                        <th>{% trans 'Title' %}</th>
-                        <th>{% trans 'Policy' %}</th>
-                        <th>{% trans 'Status' %}</th>
-                        <th>{% trans 'Actions' %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for solicitation in solicitations %}
-                    <tr>
-                        <td>{{ solicitation.title }}</td>
-                        <td>{{ solicitation.policy_id.name }}</td>
-                        <td>
-                            {% if solicitation.status == 'Pending' %}
-                                <span class="badge" style="background-color: var(--secondary);">{{ solicitation.status }}</span>
-                            {% elif solicitation.status == 'Under Review' %}
-                                <span class="badge" style="background-color: var(--info);">{{ solicitation.status }}</span>
-                            {% elif solicitation.status == 'Approved' %}
-                                <span class="badge" style="background-color: var(--success);">{{ solicitation.status }}</span>
-                            {% elif solicitation.status == 'Rejected' %}
-                                <span class="badge" style="background-color: var(--error);">{{ solicitation.status }}</span>
-                            {% elif solicitation.status == 'Successful' %}
-                                <span class="badge" style="background-color: var(--primary);">{{ solicitation.status }}</span>
-                            {% else %}
-                                <span class="badge" style="background-color: var(--dark);">{{ solicitation.status }}</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <a href="{% url 'client:solicitation_details' solicitation.id %}" class="btn btn-info btn-sm">{% trans 'View Details' %}</a>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="4" class="text-center">{% trans 'You have no solicitations yet.' %}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form method="get" action="{% url 'client:solicitations' %}">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="{% trans 'Search by cause or description...' %}" value="{{ query }}">
+                    <button class="btn btn-primary" type="submit">{% trans 'Search' %}</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form method="get" action="{% url 'client:solicitations' %}">
+                <div class="input-group">
+                    <select name="status" class="form-select" onchange="this.form.submit()">
+                        <option value="">{% trans 'All Statuses' %}</option>
+                        {% for value, name in status_choices %}
+                            <option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
         </div>
     </div>
 
-    <div class="pagination mt-4">
-        <span class="step-links">
-            {% if solicitations.has_previous %}
-                <a href="?page=1&q={{ query }}&status={{ status }}" class="btn btn-outline-primary">&laquo; {% trans 'first' %}</a>
-                <a href="?page={{ solicitations.previous_page_number }}&q={{ query }}&status={{ status }}" class="btn btn-outline-primary">{% trans 'previous' %}</a>
-            {% endif %}
-
-            <span class="current mx-2">
-                {% trans 'Page' %} {{ solicitations.number }} of {{ solicitations.paginator.num_pages }}.
-            </span>
-
-            {% if solicitations.has_next %}
-                <a href="?page={{ solicitations.next_page_number }}&q={{ query }}&status={{ status }}" class="btn btn-outline-primary">{% trans 'next' %}</a>
-                <a href="?page={{ solicitations.paginator.num_pages }}&q={{ query }}&status={{ status }}" class="btn btn-outline-primary">{% trans 'last' %} &raquo;</a>
-            {% endif %}
-        </span>
+    <div class="list-group">
+        {% for solicitation in solicitations %}
+            <a href="{% url 'client:solicitation_details' solicitation.pk %}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Reclamación #{{ solicitation.pk }}</h5>
+                    <small>{{ solicitation.created_at|date:"d M Y" }}</small>
+                </div>
+                <p class="mb-1">{{ solicitation.incident_cause|truncatewords:20 }}</p>
+                <small>{% trans 'Status' %}: <span class="badge bg-primary">{{ solicitation.get_status_display }}</span></small>
+            </a>
+        {% empty %}
+            <div class="list-group-item">
+                <p class="mb-0">{% trans 'You have no solicitations.' %}</p>
+            </div>
+        {% endfor %}
     </div>
+
+    {% if solicitations.has_other_pages %}
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if solicitations.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">&laquo; {% trans 'first' %}</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ solicitations.previous_page_number }}">{% trans 'previous' %}</a></li>
+                {% endif %}
+
+                <li class="page-item disabled"><a class="page-link" href="#">{% trans 'Page' %} {{ solicitations.number }} {% trans 'of' %} {{ solicitations.paginator.num_pages }}.</a></li>
+
+                {% if solicitations.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ solicitations.next_page_number }}">{% trans 'next' %}</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ solicitations.paginator.num_pages }}">{% trans 'last' %} &raquo;</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
 {% endblock %}
