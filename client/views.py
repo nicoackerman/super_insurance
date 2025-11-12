@@ -74,19 +74,11 @@ def create_claim_solicitation(request: HttpRequest) -> HttpResponse:
 @login_required
 def solicitations(request):
     status = request.GET.get('status')
-    query = request.GET.get('q')
     
     solicitations_list = UserSolicitation.objects.filter(user=request.user).order_by('-created_at')
 
     if status:
         solicitations_list = solicitations_list.filter(status=status)
-
-    if query:
-        solicitations_list = solicitations_list.filter(
-            Q(incident_cause__icontains=query) |
-            Q(incident_description__icontains=query) |
-            Q(policy__policy_number__icontains=query) # Added policy number search
-        )
 
     paginator = Paginator(solicitations_list, 10)
     page = request.GET.get('page')
@@ -103,7 +95,6 @@ def solicitations(request):
     return render(request, 'client/solicitations.html', {
         'solicitations': solicitations,
         'status_choices': status_choices,
-        'query': query,
         'status': status,
     })
 

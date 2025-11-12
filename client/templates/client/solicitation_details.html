@@ -3,6 +3,11 @@
 
 {% block title %}{% trans 'Solicitation Details' %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'client:solicitations' %}">{% trans 'My Solicitations' %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans 'Solicitation Details' %}</li>
+{% endblock %}
+
 {% block client_content %}
 <div class="container py-5">
     <div class="card mb-4">

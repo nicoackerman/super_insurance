@@ -3,21 +3,17 @@
 
 {% block title %}{% trans 'My Solicitations' %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item active" aria-current="page">{% trans 'My Solicitations' %}</li>
+{% endblock %}
+
 {% block client_content %}
 <div class="container py-5">
     <h1 class="mb-4">{% trans 'My Solicitations' %}</h1>
 
     <div class="card p-3 mb-4">
         <div class="row g-3 align-items-center">
-            <div class="col-md-6">
-                <form method="get" action="{% url 'client:solicitations' %}">
-                    <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="{% trans 'Search by cause, description or policy number...' %}" value="{{ query }}">
-                        <button class="btn btn-primary" type="submit">{% trans 'Search' %}</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-6">
+            <div class="col-md-6 offset-md-3"> {# Centering the status filter #}
                 <form method="get" action="{% url 'client:solicitations' %}">
                     <div class="input-group">
                         <select name="status" class="form-select" onchange="this.form.submit()">

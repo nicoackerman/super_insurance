@@ -201,20 +201,54 @@ def policies(request):
 
     return render(request, 'company/policies.html', {'policies': policies})
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q, Count
+
 @login_required
 @user_passes_test(is_admin)
 def user_list(request):
-    users = User.objects.filter(is_superuser=False)
-    user_policies = UserPolicy.objects.select_related('policy_id', 'user_id').filter(user_id__in=users)
+    users = User.objects.filter(is_superuser=False).annotate(
+        policy_count=Count('user_policies', distinct=True),
+        solicitation_count=Count('solicitations', distinct=True)
+    )
+    user_policies = UserPolicy.objects.select_related('policy', 'user').filter(user__in=users)
 
     users_with_policies = {}
     for user in users:
-        users_with_policies[user] = []
+        users_with_policies[user] = {
+            'policies': [],
+            'policy_count': user.policy_count,
+            'solicitation_count': user.solicitation_count,
+        }
 
     for up in user_policies:
-        users_with_policies[up.user_id].append(up)
+        users_with_policies[up.user]['policies'].append(up)
 
-    return render(request, 'company/user_list.html', {'users_with_policies': users_with_policies})
+    # Pagination for users
+    paginator = Paginator(list(users_with_policies.keys()), 10) # Paginate users, not policies
+    page = request.GET.get('page')
+
+    try:
+        paginated_users = paginator.page(page)
+    except PageNotAnInteger:
+        paginated_users = paginator.page(1)
+    except EmptyPage:
+        paginated_users = paginator.page(paginator.num_pages)
+
+    # Search functionality
+    query = request.GET.get('q')
+    if query:
+        paginated_users_list = []
+        for user_obj in paginated_users:
+            if query.lower() in user_obj.username.lower() or query.lower() in user_obj.email.lower():
+                paginated_users_list.append(user_obj)
+        paginated_users = Paginator(paginated_users_list, 10).page(1) # Re-paginate search results
+
+    return render(request, 'company/user_list.html', {
+        'users_with_policies': users_with_policies,
+        'paginated_users': paginated_users,
+        'query': query,
+    })
 
 @login_required
 @user_passes_test(is_admin)
@@ -258,6 +292,14 @@ def policy_details(request, policy_id):
 def solicitation_details(request, solicitation_id):
     solicitation = UserSolicitation.objects.get(id=solicitation_id)
     return render(request, 'company/solicitation_details.html', {'solicitation': solicitation})
+
+
+@login_required
+@user_passes_test(is_admin)
+def user_solicitations(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    solicitations = UserSolicitation.objects.filter(user=user).order_by('-created_at')
+    return render(request, 'company/user_solicitations.html', {'user': user, 'solicitations': solicitations})
 
 
 

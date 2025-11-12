@@ -17,10 +17,10 @@ class BaseDateForm(forms.Form):
         return cleaned_data
 
 class UserPolicyForm(BaseDateForm):
-    username = forms.CharField(max_length=100)
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
-    policy = forms.ModelChoiceField(queryset=Policy.objects.all(), empty_label="Select a policy")
+    username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    policy = forms.ModelChoiceField(queryset=Policy.objects.all(), empty_label="Select a policy", widget=forms.Select(attrs={'class': 'form-select'}))
 
 class PolicyForm(forms.ModelForm):
     class Meta:
@@ -29,12 +29,9 @@ class PolicyForm(forms.ModelForm):
         base_attrs = {'class': 'form-control'}
         widgets = {
             'name': forms.TextInput(attrs=base_attrs),
-            'description': forms.Textarea(attrs=base_attrs),
             'policy_number': forms.TextInput(attrs=base_attrs),
             'policy_type': forms.Select(attrs=base_attrs),
             'coverage_amount': forms.NumberInput(attrs=base_attrs),
-            'premium_amount': forms.NumberInput(attrs=base_attrs),
-            'monthly_payment': forms.NumberInput(attrs=base_attrs),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 

@@ -1,9 +1,14 @@
-{% extends 'index.html' %}
+{% extends 'client/base.html' %}
 {% load i18n %}
 
 {% block title %}{% trans 'Submission Failed - Super Insurance' %}{% endblock %}
 
-{% block content %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'client:new_claim' %}">{% trans 'Make a Solicitation' %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans 'Submission Failed' %}</li>
+{% endblock %}
+
+{% block client_content %}
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
