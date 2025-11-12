@@ -9,3 +9,7 @@ def get_home_url(context):
     if user.is_authenticated and user.is_superuser:
         return reverse('company:home')
     return reverse('client:home')
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)

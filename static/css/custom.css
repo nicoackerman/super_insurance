@@ -1,154 +1,17 @@
-:root {
-    --primary: #0077B6;
-    --secondary: #00B4D8;
-    --accent: #90E0EF;
-    --background: #F8FAFC;
-    --surface: #FFFFFF;
-    --text-primary: #1E293B;
-    --text-secondary: #475569;
-    --error: #EF4444;
-    --success: #28a745;
-    --info: #0dcaf0;
-    --warning: #ffc107;
-    --dark: #212529;
+
+/* Solicitation Status Badges */
+.badge.bg-pending {
+    background-color: var(--warning) !important;
 }
 
-/* General Body and Layout */
-body {
-    background-color: var(--background);
-    color: var(--text-primary);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+.badge.bg-approved {
+    background-color: var(--success) !important;
 }
 
-.content-wrapper {
-    flex: 1;
+.badge.bg-rejected {
+    background-color: var(--error) !important;
 }
 
-/* Navbar */
-.navbar {
-    background-color: var(--primary);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-brand,
-.nav-link {
-    color: var(--surface) !important;
-}
-
-.navbar-brand {
-    font-weight: bold;
-}
-
-/* Footer */
-.footer {
-    background-color: var(--primary);
-    color: var(--surface);
-    padding: 40px 0;
-    text-align: center;
-    margin-top: auto;
-}
-
-/* Buttons */
-.btn-primary {
-    background-color: var(--primary);
-    border-color: var(--primary);
-}
-
-.btn-primary:hover {
-    background-color: #005a8d; /* Darker Ocean Blue */
-    border-color: #005a8d;
-}
-
-.btn-danger {
-    background-color: var(--error);
-    border-color: var(--error);
-}
-
-/* Cards */
-.card {
-    background-color: var(--surface);
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 2rem;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-.card-header {
-    background-color: var(--primary);
-    color: var(--surface);
-    font-weight: bold;
-    border-bottom: none;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.card-title {
-    color: var(--text-primary);
-    font-weight: bold;
-}
-
-/* Forms */
-.form-container {
-    max-width: 500px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: var(--surface);
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.form-label {
-    color: var(--text-primary);
-    font-weight: 500;
-}
-
-/* Dashboard Cards */
-.dashboard-card {
-    background-color: var(--surface);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-    padding: 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-}
-
-.dashboard-card:hover {
-    transform: translateY(-5px);
-    color: inherit;
-}
-
-.dashboard-card i {
-    font-size: 3rem;
-    color: var(--primary);
-    margin-bottom: 15px;
-}
-
-.dashboard-card h5 {
-    color: var(--text-primary);
-    font-weight: bold;
-}
-
-.dashboard-card p {
-    color: var(--text-secondary);
-}
-
-/* Hero Section */
-.hero-section {
-    background: linear-gradient(45deg, var(--primary), var(--secondary));
-    color: var(--surface);
-    padding: 100px 0;
-    text-align: center;
+.badge.bg-draft {
+    background-color: var(--secondary) !important;
 }

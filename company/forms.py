@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from client.models import Policy, UserPolicy
+from client.models import Policy, UserPolicy, UserSolicitation
 from django.core.exceptions import ValidationError
 
 class BaseDateForm(forms.Form):
@@ -55,4 +55,12 @@ class UserPolicyDatesForm(forms.ModelForm, BaseDateForm):
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        }
+
+class SolicitationStatusForm(forms.ModelForm):
+    class Meta:
+        model = UserSolicitation
+        fields = ['status']
+        widgets = {
+            'status': forms.Select(attrs={'class': 'form-control'}),
         }

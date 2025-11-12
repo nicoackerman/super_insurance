@@ -1,42 +1,127 @@
 {% extends 'company/base.html' %}
-{% load humanize %}
 {% load i18n %}
 
-{% block title %}{% trans 'Solicitation Details - Super Insurance' %}{% endblock %}
-
-{% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="{% url 'company:solicitations' %}">{% trans 'User Solicitations' %}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{% trans 'Solicitation Details' %}</li>
-{% endblock %}
+{% block title %}{% trans 'Solicitation Details' %}{% endblock %}
 
 {% block company_content %}
-<div class="row">
-    <div class="col-md-8 offset-md-2">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">{% trans 'Solicitation Details' %}: {{ solicitation.title }}</h3>
-            </div>
-            <div class="card-body">
-                <p><strong>{% trans 'User' %}:</strong> {{ solicitation.user_id.username }}</p>
-                <p><strong>{% trans 'Policy' %}:</strong> {{ solicitation.policy_id.name }}</p>
-                <p><strong>{% trans 'Status' %}:</strong> {{ solicitation.status }}</p>
-                <p><strong>{% trans 'Description' %}:</strong> {{ solicitation.description }}</p>
-                <p><strong>{% trans 'Occurred At' %}:</strong> {{ solicitation.occurred_at|date:"Y-m-d H:i" }}</p>
-                <p><strong>{% trans 'Estimated Loss' %}:</strong> 
-                    {% if solicitation.estimated_loss %}
-                        ${{ solicitation.estimated_loss|intcomma }}
-                    {% else %}
-                        N/A
-                    {% endif %}
-                </p>
-                {% if solicitation.evidence_url %}<p><strong>{% trans 'Evidence' %}:</strong> <a href="{{ solicitation.evidence_url }}" target="_blank">{{ solicitation.evidence_url }}</a></p>{% endif %}
-                {% if solicitation.claim_location %}<p><strong>{% trans 'Claim Location' %}:</strong> {{ solicitation.claim_location }}</p>{% endif %}
-                {% if solicitation.witnesses %}<p><strong>{% trans 'Witnesses' %}:</strong> {{ solicitation.witnesses }}</p>{% endif %}
-                {% if solicitation.police_report_number %}<p><strong>{% trans 'Police Report Number' %}:</strong> {{ solicitation.police_report_number }}</p>{% endif %}
-                <p><strong>{% trans 'Created At' %}:</strong> {{ solicitation.created_at|date:"Y-m-d H:i" }}</p>
-                <a href="javascript:history.back()" class="btn btn-secondary">{% trans 'Back' %}</a>
+<div class="container py-5">
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h1 class="mb-0">{% trans 'Solicitation Details' %} #{{ solicitation.pk }}</h1>
+            <div class="d-flex align-items-center">
+                <span class="badge fs-5 bg-{{ solicitation.status|lower }} me-3">{{ solicitation.get_status_display }}</span>
+                <div class="btn-group" role="group" aria-label="Solicitation actions">
+                    <a href="{% url 'company:change_solicitation_status' solicitation.pk %}?status=Approved" class="btn btn-success">{% trans 'Approve' %}</a>
+                    <a href="{% url 'company:change_solicitation_status' solicitation.pk %}?status=Rejected" class="btn btn-danger">{% trans 'Reject' %}</a>
+                    <a href="#" class="btn btn-info">{% trans 'Request More Info' %}</a> {# Placeholder for future implementation #}
+                </div>
             </div>
         </div>
+        <div class="card-body">
+            <ul class="nav nav-tabs" id="solicitationTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">{% trans 'General and Claimant Information' %}</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="incident-tab" data-bs-toggle="tab" data-bs-target="#incident" type="button" role="tab" aria-controls="incident" aria-selected="false">{% trans 'Incident Information' %}</button>
+                </li>
+                {% if solicitation.payment_details %}
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab" aria-controls="payment" aria-selected="false">{% trans 'Payment and Declaration' %}</button>
+                </li>
+                {% endif %}
+            </ul>
+            <div class="tab-content p-3" id="solicitationTabsContent">
+                <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>{% trans 'Creation Date' %}:</strong> {{ solicitation.created_at|date:"d M Y, H:i" }}</p>
+                            <p><strong>{% trans 'Diligenciamiento City' %}:</strong> {{ solicitation.diligenciamiento_city }}</p>
+                            <p><strong>{% trans 'Claimant' %}:</strong> {{ solicitation.user.get_full_name|default:solicitation.user.username }}</p>
+                            <p><strong>{% trans 'Claimant CC' %}:</strong> {{ solicitation.claimant_cc }}</p>
+                            <p><strong>{% trans 'Claimant Phone' %}:</strong> {{ solicitation.claimant_phone }}</p>
+                            <p><strong>{% trans 'Claimant Celular' %}:</strong> {{ solicitation.claimant_celular }}</p>
+                            <p><strong>{% trans 'Claimant Email' %}:</strong> {{ solicitation.claimant_email }}</p>
+                            <p><strong>{% trans 'Claimant Address' %}:</strong> {{ solicitation.claimant_address }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>{% trans 'Policy Number' %}:</strong> {{ solicitation.policy.policy_number }}</p>
+                            <p><strong>{% trans 'Policy Type' %}:</strong> {{ solicitation.policy.get_policy_type_display }}</p>
+                            <p><strong>{% trans 'Coverage Amount' %}:</strong> {{ solicitation.policy.coverage_amount }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="incident" role="tabpanel" aria-labelledby="incident-tab">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>{% trans 'Incident Location' %}:</strong> {{ solicitation.incident_location }}</p>
+                            <p><strong>{% trans 'Incident Date' %}:</strong> {{ solicitation.incident_date|date:"d M Y" }}</p>
+                            <p><strong>{% trans 'Incident Time' %}:</strong> {{ solicitation.incident_time|time:"H:i" }}</p>
+                            <p><strong>{% trans 'Incident Cause' %}:</strong> {{ solicitation.incident_cause }}</p>
+                            <p><strong>{% trans 'Incident Description' %}:</strong> {{ solicitation.incident_description }}</p>
+                            <p><strong>{% trans 'Occupation at Incident' %}:</strong> {{ solicitation.occupation_at_incident }}</p>
+                            <p><strong>{% trans 'Last Work Date' %}:</strong> {{ solicitation.last_work_date|default:"N/A" }}</p>
+                            <p><strong>{% trans 'Recent Hospitalization' %}:</strong> {{ solicitation.has_recent_hospitalization|yesno:"Yes,No" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            {% if solicitation.disability_date %}
+                                <p><strong>{% trans 'Disability Date' %}:</strong> {{ solicitation.disability_date|date:"d M Y" }}</p>
+                            {% endif %}
+                            {% if solicitation.is_drunk_accident is not None %}
+                                <p><strong>{% trans 'Drunk Accident' %}:</strong> {{ solicitation.is_drunk_accident|yesno:"Yes,No" }}</p>
+                            {% endif %}
+                            {% if solicitation.accident_injuries %}
+                                <p><strong>{% trans 'Accident Injuries' %}:</strong> {{ solicitation.accident_injuries }}</p>
+                            {% endif %}
+                            {% if solicitation.accident_details %}
+                                <p><strong>{% trans 'Accident Details' %}:</strong> {{ solicitation.accident_details }}</p>
+                            {% endif %}
+                            {% if solicitation.medical_reimbursement_value %}
+                                <p><strong>{% trans 'Medical Reimbursement Value' %}:</strong> {{ solicitation.medical_reimbursement_value }}</p>
+                            {% endif %}
+                            {% if solicitation.hospitalization_days %}
+                                <p><strong>{% trans 'Hospitalization Days' %}:</strong> {{ solicitation.hospitalization_days }}</p>
+                            {% endif %}
+                            {% if solicitation.hospital_entry_date %}
+                                <p><strong>{% trans 'Hospital Entry Date' %}:</strong> {{ solicitation.hospital_entry_date|date:"d M Y" }}</p>
+                            {% endif %}
+                            {% if solicitation.hospital_exit_date %}
+                                <p><strong>{% trans 'Hospital Exit Date' %}:</strong> {{ solicitation.hospital_exit_date|date:"d M Y" }}</p>
+                            {% endif %}
+                            {% if solicitation.temp_disability_start %}
+                                <p><strong>{% trans 'Temporary Disability Start' %}:</strong> {{ solicitation.temp_disability_start|date:"d M Y" }}</p>
+                            {% endif %}
+                            {% if solicitation.temp_disability_end %}
+                                <p><strong>{% trans 'Temporary Disability End' %}:</strong> {{ solicitation.temp_disability_end|date:"d M Y" }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if solicitation.payment_details %}
+                <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
+                    <p><strong>{% trans 'Method' %}:</strong> {{ solicitation.payment_details.get_payment_method_display }}</p>
+                    {% if solicitation.payment_details.payment_method == 'transfer' %}
+                        <p><strong>{% trans 'Bank' %}:</strong> {{ solicitation.payment_details.bank_name }}</p>
+                        <p><strong>{% trans 'Account Type' %}:</strong> {{ solicitation.payment_details.get_account_type_display }}</p>
+                        <p><strong>{% trans 'Account Number' %}:</strong> {{ solicitation.payment_details.account_number }}</p>
+                    {% endif %}
+                    <p><strong>{% trans 'Document Link' %}:</strong> 
+                        {% if solicitation.document_link %}
+                            <a href="{{ solicitation.document_link }}" target="_blank">{{ solicitation.document_link }}</a>
+                        {% else %}
+                            {% trans 'N/A' %}
+                        {% endif %}
+                    </p>
+                    <p><strong>{% trans 'Declaration Accepted' %}:</strong> {{ solicitation.declaration_accepted|yesno:"Yes,No" }}</p>
+                    <p><strong>{% trans 'Claimant Signature' %}:</strong> {{ solicitation.claimant_signature }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="{% url 'company:solicitations' %}" class="btn btn-secondary">{% trans 'Back to Solicitations' %}</a>
     </div>
 </div>
 {% endblock %}

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from client.models import UserSolicitation, UserPolicy, Policy
 from django.contrib import messages
 
-from .forms import UserPolicyForm, PolicyForm, AddPolicyToUserForm, UserPolicyDatesForm
+from .forms import UserPolicyForm, PolicyForm, AddPolicyToUserForm, UserPolicyDatesForm, SolicitationStatusForm
 from django.contrib.auth.models import User
 
 def is_admin(user):
@@ -19,17 +19,21 @@ def change_solicitation_status(request, solicitation_id):
         return redirect('company:solicitations')
 
     if request.method == 'POST':
-        new_status = request.POST.get('status')
-        if new_status and new_status in [s[0] for s in UserSolicitation.STATUS_CHOICES]:
-            solicitation.status = new_status
-            solicitation.save()
-            messages.success(request, f"Solicitation {solicitation.title} status changed to {new_status}.")
+        form = SolicitationStatusForm(request.POST, instance=solicitation)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Solicitation {solicitation.pk} status changed to {solicitation.get_status_display()}.")
             return redirect('company:solicitations')
         else:
             messages.error(request, "Invalid status provided.")
-            return redirect('company:solicitations')
+    else:
+        initial_status = request.GET.get('status')
+        if initial_status and initial_status in [s[0] for s in UserSolicitation.STATUS_CHOICES]:
+            form = SolicitationStatusForm(instance=solicitation, initial={'status': initial_status})
+        else:
+            form = SolicitationStatusForm(instance=solicitation)
     
-    return render(request, 'company/change_solicitation_status.html', {'solicitation': solicitation, 'status_choices': UserSolicitation.STATUS_CHOICES})
+    return render(request, 'company/change_solicitation_status.html', {'solicitation': solicitation, 'form': form})
 
 @login_required
 @user_passes_test(is_admin)
@@ -59,7 +63,7 @@ def home(request):
     return render(request, 'company/home.html')
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Q
+from django.db.models import Q, Count
 
 @login_required
 @user_passes_test(is_admin)
@@ -67,14 +71,17 @@ def solicitations(request):
     status = request.GET.get('status')
     query = request.GET.get('q')
     
-    solicitations_list = UserSolicitation.objects.all().order_by('-created_at')
+    solicitations_list = UserSolicitation.objects.select_related('user', 'policy').all().order_by('-created_at')
 
     if status:
         solicitations_list = solicitations_list.filter(status=status)
 
     if query:
         solicitations_list = solicitations_list.filter(
-            Q(user_id__username__icontains=query)
+            Q(user__username__icontains=query) |
+            Q(incident_cause__icontains=query) |
+            Q(incident_description__icontains=query) |
+            Q(policy__policy_number__icontains=query)
         )
 
     paginator = Paginator(solicitations_list, 10)  # Show 10 solicitations per page
@@ -88,12 +95,18 @@ def solicitations(request):
         solicitations = paginator.page(paginator.num_pages)
     
     status_choices = UserSolicitation.STATUS_CHOICES
+
+    # Calculate solicitation counts by status
+    solicitation_counts = {}
+    for status_code, status_name in status_choices:
+        solicitation_counts[status_code] = UserSolicitation.objects.filter(status=status_code).count()
     
     return render(request, 'company/solicitations.html', {
         'solicitations': solicitations,
         'status_choices': status_choices,
         'query': query,
         'status': status,
+        'solicitation_counts': solicitation_counts,
     })
 
 from django.contrib import messages
